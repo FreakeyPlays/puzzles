@@ -1,0 +1,21 @@
+{
+  "name": "@repo/eslint-config",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    "./base": "./base.ts",
+    "./angular": "./angular.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@repo/typescript-config": "*",
+    "angular-eslint": "^21.4.0",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-turbo": "^2.7.1",
+    "globals": "^17.6.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.59.2"
+  }
+}

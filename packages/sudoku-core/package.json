@@ -1,0 +1,17 @@
+{
+  "name": "sudoku-core",
+  "version": "0.2.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "cargo build --release",
+    "dev": "cargo build",
+    "lint": "cargo clippy -- -D warnings",
+    "lint:fix": "cargo clippy --fix --allow-dirty --allow-staged -- -D warnings",
+    "format:fix": "cargo fmt",
+    "format": "cargo fmt --check",
+    "test": "cargo test",
+    "check-types": "cargo check",
+    "publish:crate": "cargo package --no-verify"
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.chrismerck.sudoku.twa",
+      "sha256_cert_fingerprints": [
+        "B0:4E:E1:5D:95:DD:B3:84:4B:C1:5B:81:91:D5:23:C9:78:D1:D7:79:36:FB:F8:BD:1E:38:9C:C1:20:C8:B1:B0"
+      ]
+    }
+  }
+]

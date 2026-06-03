@@ -1,0 +1,13 @@
+{
+  "extends": "@repo/typescript-config/angular.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "baseUrl": ".",
+    "paths": {
+      "@repo/sudoku-wasm": ["../../packages/sudoku-wasm"]
+    }
+  },
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.spec.json" }]
+}
