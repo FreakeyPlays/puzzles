@@ -29,53 +29,7 @@
     { "src": "icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "screenshots": [
-    {
-      "src": "screenshots/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Sudoku game on desktop"
-    },
-    {
-      "src": "screenshots/screenshot-narrow.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Sudoku game on mobile"
-    }
   ],
   "shortcuts": [
-    {
-      "name": "New Game",
-      "short_name": "New",
-      "description": "Start a new sudoku puzzle",
-      "url": "./?new=1",
-      "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
-    }
   ],
-  "share_target": {
-    "action": "./share",
-    "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
-  "protocol_handlers": [
-    {
-      "protocol": "web+sudoku",
-      "url": "./?puzzle=%s"
-    }
-  ],
-  "file_handlers": [
-    {
-      "action": "./",
-      "accept": {
-        "application/x-sudoku": [".sudoku"]
-      }
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
 }
