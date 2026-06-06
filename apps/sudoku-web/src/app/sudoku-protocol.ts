@@ -25,11 +25,24 @@ export type WasmCallMessage = {
 
 export type WorkerInboundMessage = WasmInitMessage | WasmCallMessage;
 
+// ok is parameterized by the called function so result is typed, not unknown.
+type WasmOkMessage = {
+  [K in SudokuFunctionName]: {
+    type: 'ok';
+    id: number;
+    fn: K;
+    result: SudokuFunctions[K]['result'];
+    durationMs: number;
+  };
+}[SudokuFunctionName];
+
+// All other response types — add entries here (e.g. progress) to extend the union.
 interface WasmResponseTypes {
-  ok: { result: unknown; durationMs: number };
   error: { error: string };
 }
 
-export type WasmResponseMessage = {
+type WasmSimpleMessage = {
   [K in keyof WasmResponseTypes]: { type: K; id: number } & WasmResponseTypes[K];
 }[keyof WasmResponseTypes];
+
+export type WasmResponseMessage = WasmOkMessage | WasmSimpleMessage;

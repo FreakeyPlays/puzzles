@@ -35,7 +35,13 @@ addEventListener('message', async (event: MessageEvent<WorkerInboundMessage>) =>
   const start = performance.now();
   try {
     const result = dispatch(msg.fn, msg.args);
-    postMessage({ type: 'ok', id: msg.id, result, durationMs: performance.now() - start });
+    postMessage({
+      type: 'ok',
+      id: msg.id,
+      fn: msg.fn,
+      result,
+      durationMs: performance.now() - start,
+    });
   } catch (err) {
     postMessage({ type: 'error', id: msg.id, error: String(err) });
   }
