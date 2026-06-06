@@ -7,13 +7,13 @@
   <div>Result in JS: {{ jsResult() }}, calculated in {{ jsTime() }}</div>
 }
 
-@if (wasm.factorial.isLoading()) {
+@if (sudoku.factorial.isLoading()) {
   <div>Rust (worker): calculating…</div>
-} @else if (wasm.factorial.hasValue()) {
+} @else if (sudoku.factorial.hasValue()) {
   <div>
-    Result in Rust (worker): {{ wasm.factorial.value()!.value }}, calculated in
-    {{ (wasm.factorial.value()!.durationMs / 1000).toFixed(4) }}s
+    Result in Rust (worker): {{ sudoku.factorial.value()!.value }}, calculated in
+    {{ (sudoku.factorial.value()!.durationMs / 1000).toFixed(4) }}s
   </div>
-} @else if (wasm.factorial.error()) {
-  <div>Rust error: {{ wasm.factorial.error() }}</div>
+} @else if (sudoku.factorial.error()) {
+  <div>Rust error: {{ sudoku.factorial.error() }}</div>
 }

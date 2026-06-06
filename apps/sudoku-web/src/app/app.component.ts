@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { WasmWorkerService } from './wasm-worker.service';
+import { SudokuService } from './sudoku.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { WasmWorkerService } from './wasm-worker.service';
 })
 export class AppComponent {
   protected readonly title = signal('sudoku-web');
-  protected readonly wasm = inject(WasmWorkerService);
+  protected readonly sudoku = inject(SudokuService);
 
   jsResult = signal<string>('');
   jsTime = signal<string>('');
@@ -19,7 +19,7 @@ export class AppComponent {
     const n = typeof inp === 'number' ? inp : parseInt(inp, 10);
 
     // Dispatch WASM call to the worker — non-blocking, result flows back via resource()
-    this.wasm.input.set(n);
+    this.sudoku.input.set(n);
 
     // JS benchmark still runs on the main thread; defer to let the UI update first
     this.jsCalculating.set(true);
