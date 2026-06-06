@@ -21,8 +21,7 @@ export type WorkerCallMessage = {
     type: 'call';
     id: number;
     fn: K;
-    args: ArgsOf<K>;
-  };
+  } & (WorkerFunctions[K] extends { args: infer A } ? { args: A } : object);
 }[keyof WorkerFunctions];
 
 export type WorkerInboundMessage = WorkerInitMessage | WorkerCallMessage;
