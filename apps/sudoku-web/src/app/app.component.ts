@@ -11,6 +11,8 @@ export class AppComponent {
   protected readonly title = signal('sudoku-web');
   protected readonly sudoku = inject(SudokuService);
 
+  readonly factorial = signal<ReturnType<SudokuService['factorial']> | null>(null);
+
   jsResult = signal<string>('');
   jsTime = signal<string>('');
   jsCalculating = signal(false);
@@ -18,8 +20,7 @@ export class AppComponent {
   calculate(inp: number | string) {
     const n = typeof inp === 'number' ? inp : parseInt(inp, 10);
 
-    // Dispatch WASM call to the worker — non-blocking, result flows back via resource()
-    this.sudoku.input.set(n);
+    this.factorial.set(this.sudoku.factorial(n));
 
     // JS benchmark still runs on the main thread; defer to let the UI update first
     this.jsCalculating.set(true);

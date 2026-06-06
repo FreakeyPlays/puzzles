@@ -17,16 +17,6 @@ export class SudokuService {
     { resolve: (value: unknown) => void; reject: (error: Error) => void }
   >();
 
-  readonly input = signal<number | null>(null);
-
-  readonly factorial = resource<CallResult<'get_factorial'>, number | undefined>({
-    params: () => {
-      const n = this.input();
-      return n !== null && n > 0 ? n : undefined;
-    },
-    loader: ({ params, abortSignal }) => this.call('get_factorial', params, abortSignal),
-  });
-
   constructor() {
     this.worker.postMessage({
       type: 'init',
@@ -46,6 +36,16 @@ export class SudokuService {
           pending.reject(new Error(msg.error));
           break;
       }
+    });
+  }
+
+  factorial(args: ArgsOf<'get_factorial'>) {
+    return resource<CallResult<'get_factorial'>, number | undefined>({
+      params: () => {
+        const n = args;
+        return n !== null && n > 0 ? n : undefined;
+      },
+      loader: ({ params, abortSignal }) => this.call('get_factorial', params, abortSignal),
     });
   }
 
