@@ -25,6 +25,11 @@ export type WasmCallMessage = {
 
 export type WorkerInboundMessage = WasmInitMessage | WasmCallMessage;
 
-export type WasmResponseMessage =
-  | { type: 'ok'; id: number; result: unknown; durationMs: number }
-  | { type: 'error'; id: number; error: string };
+interface WasmResponseTypes {
+  ok: { result: unknown; durationMs: number };
+  error: { error: string };
+}
+
+export type WasmResponseMessage = {
+  [K in keyof WasmResponseTypes]: { type: K; id: number } & WasmResponseTypes[K];
+}[keyof WasmResponseTypes];
