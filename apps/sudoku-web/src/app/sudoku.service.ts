@@ -38,10 +38,13 @@ export class SudokuService {
       const pending = this.pending.get(msg.id);
       if (!pending) return;
       this.pending.delete(msg.id);
-      if ('error' in msg) {
-        pending.reject(new Error(msg.error));
-      } else {
-        pending.resolve({ value: msg.result, durationMs: msg.durationMs });
+      switch (msg.type) {
+        case 'ok':
+          pending.resolve({ value: msg.result, durationMs: msg.durationMs });
+          break;
+        case 'error':
+          pending.reject(new Error(msg.error));
+          break;
       }
     });
   }
