@@ -1,48 +1,45 @@
-export interface SudokuFunctions {
+export type WorkerFunctions = {
   get_factorial: { args: number; result: string };
+};
+
+export type ArgsOf<K extends keyof WorkerFunctions> = WorkerFunctions[K] extends { args: infer A }
+  ? A
+  : never;
+export type ResultOf<K extends keyof WorkerFunctions> = WorkerFunctions[K] extends {
+  result: infer R;
 }
+  ? R
+  : void;
 
-export type SudokuFunctionName = keyof SudokuFunctions;
-
-export interface SudokuCallResult<K extends SudokuFunctionName> {
-  value: SudokuFunctions[K]['result'];
-  durationMs: number;
-}
-
-export interface WasmInitMessage {
+export type WorkerInitMessage = {
   type: 'init';
   wasmUrl: string;
-}
+};
 
-export type WasmCallMessage = {
-  [K in SudokuFunctionName]: {
+export type WorkerCallMessage = {
+  [K in keyof WorkerFunctions]: {
     type: 'call';
     id: number;
     fn: K;
-    args: SudokuFunctions[K]['args'];
+    args: ArgsOf<K>;
   };
-}[SudokuFunctionName];
+}[keyof WorkerFunctions];
 
-export type WorkerInboundMessage = WasmInitMessage | WasmCallMessage;
+export type WorkerInboundMessage = WorkerInitMessage | WorkerCallMessage;
 
-// ok is parameterized by the called function so result is typed, not unknown.
-type WasmOkMessage = {
-  [K in SudokuFunctionName]: {
+export type WorkerOkResponse = {
+  [K in keyof WorkerFunctions]: {
     type: 'ok';
     id: number;
     fn: K;
-    result: SudokuFunctions[K]['result'];
     durationMs: number;
-  };
-}[SudokuFunctionName];
+  } & (WorkerFunctions[K] extends { result: infer R } ? { result: R } : object);
+}[keyof WorkerFunctions];
 
-// All other response types — add entries here (e.g. progress) to extend the union.
-interface WasmResponseTypes {
-  error: { error: string };
-}
+export type WorkerErrorResponse = {
+  type: 'error';
+  id: number;
+  error: string;
+};
 
-type WasmSimpleMessage = {
-  [K in keyof WasmResponseTypes]: { type: K; id: number } & WasmResponseTypes[K];
-}[keyof WasmResponseTypes];
-
-export type WasmResponseMessage = WasmOkMessage | WasmSimpleMessage;
+export type WorkerResponse = WorkerOkResponse | WorkerErrorResponse;

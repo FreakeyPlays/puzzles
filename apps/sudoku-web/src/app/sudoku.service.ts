@@ -1,10 +1,10 @@
 import { resource, Service, signal } from '@angular/core';
-import type {
-  SudokuCallResult,
-  SudokuFunctionName,
-  SudokuFunctions,
-  WasmResponseMessage,
-} from './sudoku-protocol';
+import type { ArgsOf, ResultOf, WorkerFunctions, WorkerResponse } from './sudoku-protocol';
+
+type CallResult<K extends keyof WorkerFunctions> = {
+  value: ResultOf<K>;
+  durationMs: number;
+};
 
 @Service()
 export class SudokuService {
@@ -19,7 +19,7 @@ export class SudokuService {
 
   readonly input = signal<number | null>(null);
 
-  readonly factorial = resource<SudokuCallResult<'get_factorial'>, number | undefined>({
+  readonly factorial = resource<CallResult<'get_factorial'>, number | undefined>({
     params: () => {
       const n = this.input();
       return n !== null && n > 0 ? n : undefined;
@@ -33,7 +33,7 @@ export class SudokuService {
       wasmUrl: new URL('index_bg.wasm', document.baseURI).href,
     });
 
-    this.worker.addEventListener('message', (event: MessageEvent<WasmResponseMessage>) => {
+    this.worker.addEventListener('message', (event: MessageEvent<WorkerResponse>) => {
       const msg = event.data;
       const pending = this.pending.get(msg.id);
       if (!pending) return;
@@ -49,12 +49,12 @@ export class SudokuService {
     });
   }
 
-  private call<K extends SudokuFunctionName>(
+  private call<K extends keyof WorkerFunctions>(
     fn: K,
-    args: SudokuFunctions[K]['args'],
+    args: ArgsOf<K>,
     abortSignal: AbortSignal,
-  ): Promise<SudokuCallResult<K>> {
-    return new Promise<SudokuCallResult<K>>((resolve, reject) => {
+  ): Promise<CallResult<K>> {
+    return new Promise<CallResult<K>>((resolve, reject) => {
       const id = ++this.nextId;
       // The pending map can't encode per-entry generic types, so we cast at this boundary.
       // Type safety is enforced at the call site via K.

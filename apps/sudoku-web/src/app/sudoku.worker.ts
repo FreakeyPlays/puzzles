@@ -1,9 +1,9 @@
 /// <reference lib="webworker" />
 import init, { get_factorial } from '@repo/sudoku-wasm';
-import type { SudokuFunctionName, SudokuFunctions, WorkerInboundMessage } from './sudoku-protocol';
+import type { ArgsOf, ResultOf, WorkerFunctions, WorkerInboundMessage } from './sudoku-protocol';
 
 type HandlerMap = {
-  [K in SudokuFunctionName]: (args: SudokuFunctions[K]['args']) => SudokuFunctions[K]['result'];
+  [K in keyof WorkerFunctions]: (args: ArgsOf<K>) => ResultOf<K>;
 };
 
 const handlers: HandlerMap = {
@@ -12,7 +12,7 @@ const handlers: HandlerMap = {
 
 // TypeScript can't correlate handlers[K] with args[K] through a dynamic key,
 // so we use a single cast at this internal dispatch boundary.
-function dispatch(fn: SudokuFunctionName, args: unknown): unknown {
+function dispatch(fn: keyof WorkerFunctions, args: unknown): unknown {
   return (handlers[fn] as (args: unknown) => unknown)(args);
 }
 
