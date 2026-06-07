@@ -37,9 +37,10 @@ export class BoardComponent {
       const row = Math.floor(i / 9);
       const col = i % 9;
       const box = Math.floor(row / 3) * 3 + Math.floor(col / 3);
-      const isGiven = puzzle[i] !== '0';
-      const editChar = edits[i] !== '0' ? edits[i] : '';
-      const value = editChar || (isGiven ? puzzle[i] : '');
+      const puzzleChar = puzzle.charAt(i);
+      const editChar = edits.charAt(i);
+      const isGiven = puzzleChar !== '0';
+      const value = editChar !== '0' ? editChar : isGiven ? puzzleChar : '';
       const isSelected = i === selected;
       const isPeer =
         !isSelected &&
