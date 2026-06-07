@@ -1,5 +1,5 @@
 import { Component, inject, resource, signal } from '@angular/core';
-import { SudokuService } from './sudoku.service';
+import { SudokuService } from './sudoku/sudoku.service';
 
 @Component({
   selector: 'app-root',
