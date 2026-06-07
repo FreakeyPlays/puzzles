@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 import init, { get_factorial } from '@repo/sudoku-wasm';
-import type { ArgsOf, ResultOf, WorkerFunctions, WorkerInboundMessage } from './sudoku-protocol';
+import type { ArgsOf, ResultOf, WorkerFunctions, WorkerInboundMessage } from './worker-protocol';
 
 type HandlerMap = {
   [K in keyof WorkerFunctions]: (args: ArgsOf<K>) => ResultOf<K> | Promise<ResultOf<K>>;
