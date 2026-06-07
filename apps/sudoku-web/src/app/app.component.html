@@ -7,17 +7,13 @@
   <div>Result in JS: {{ jsResult() }}, calculated in {{ jsTime() }}</div>
 }
 
-@switch (factorialState().status) {
-  @case ('loading') {
-    <div>Rust (worker): calculating…</div>
-  }
-  @case ('success') {
-    <div>
-      Result in Rust (worker): {{ $any(factorialState()).value }}, calculated in
-      {{ ($any(factorialState()).durationMs / 1000).toFixed(4) }}s
-    </div>
-  }
-  @case ('error') {
-    <div>Rust error: {{ $any(factorialState()).message }}</div>
-  }
+@if (factorialResult.isLoading()) {
+  <div>Rust (worker): calculating…</div>
+} @else if (factorialResult.hasValue()) {
+  <div>
+    Result in Rust (worker): {{ factorialResult.value()!.value }}, calculated in
+    {{ (factorialResult.value()!.durationMs / 1000).toFixed(4) }}s
+  </div>
+} @else if (factorialResult.error()) {
+  <div>Rust error: {{ factorialResult.error() }}</div>
 }

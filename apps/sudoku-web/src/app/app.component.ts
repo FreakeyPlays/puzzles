@@ -1,15 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { from, of } from 'rxjs';
+import { Component, inject, resource, signal } from '@angular/core';
 import { SudokuService } from './sudoku.service';
-
-type FactorialState =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; value: string; durationMs: number }
-  | { status: 'error'; message: string };
 
 @Component({
   selector: 'app-root',
@@ -20,21 +10,13 @@ type FactorialState =
 export class AppComponent {
   private readonly sudoku = inject(SudokuService);
 
-  private readonly factorialInput$ = new Subject<number>();
-
   protected readonly title = signal('sudoku-web');
-  protected readonly factorialState = toSignal(
-    this.factorialInput$.pipe(
-      switchMap(n =>
-        from(this.sudoku.factorial(n)).pipe(
-          map(r => ({ status: 'success' as const, value: r.value, durationMs: r.durationMs })),
-          catchError(e => of<FactorialState>({ status: 'error', message: String(e) })),
-          startWith<FactorialState>({ status: 'loading' }),
-        ),
-      ),
-    ),
-    { initialValue: { status: 'idle' } as FactorialState },
-  );
+
+  private readonly factorialInput = signal<number | undefined>(undefined);
+  protected readonly factorialResult = resource({
+    params: () => this.factorialInput(),
+    loader: ({ params }) => this.sudoku.factorial(params),
+  });
 
   jsResult = signal<string>('');
   jsTime = signal<string>('');
@@ -42,7 +24,7 @@ export class AppComponent {
 
   calculate(inp: number | string) {
     const n = typeof inp === 'number' ? inp : parseInt(inp, 10);
-    this.factorialInput$.next(n);
+    this.factorialInput.set(n);
 
     this.jsCalculating.set(true);
     setTimeout(() => {
