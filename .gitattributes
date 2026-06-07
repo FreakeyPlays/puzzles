@@ -1,0 +1,25 @@
+# Normalize line endings to LF on checkin
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Generated / vendored: collapse in diffs and exclude from language stats
+bun.lock      linguist-generated -diff
+**/Cargo.lock linguist-generated
+apps/*/twa/** linguist-generated
+
+# Binary assets (no text diffs, no EOL normalization)
+*.wasm     binary
+*.keystore binary
+*.jks      binary
+*.jar      binary
+*.aab      binary
+*.apk      binary
+*.idsig    binary
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.webp     binary
+*.ico      binary
