@@ -1,7 +1,7 @@
-import { resource, Service, signal } from '@angular/core';
+import { Service } from '@angular/core';
 import type { ArgsOf, ResultOf, WorkerFunctions, WorkerResponse } from './worker-protocol';
 
-type CallResult<K extends keyof WorkerFunctions> = {
+export type CallResult<K extends keyof WorkerFunctions> = {
   value: ResultOf<K>;
   durationMs: number;
 };
@@ -16,15 +16,6 @@ export class SudokuService {
     number,
     { resolve: (value: unknown) => void; reject: (error: Error) => void }
   >();
-
-  private factorialArgs = signal(0);
-  private $factorial = resource<CallResult<'get_factorial'>, number | undefined>({
-    params: () => {
-      const n = this.factorialArgs();
-      return n !== null && n > 0 ? n : undefined;
-    },
-    loader: ({ params, abortSignal }) => this.call('get_factorial', params, abortSignal),
-  });
 
   constructor() {
     this.worker.postMessage({
@@ -48,25 +39,15 @@ export class SudokuService {
     });
   }
 
-  factorial(args: ArgsOf<'get_factorial'>) {
-    this.factorialArgs.set(args);
-    return this.$factorial;
+  factorial(args: ArgsOf<'get_factorial'>): Promise<CallResult<'get_factorial'>> {
+    return this.call('get_factorial', args);
   }
 
-  private call<K extends keyof WorkerFunctions>(
-    fn: K,
-    args: ArgsOf<K>,
-    abortSignal: AbortSignal,
-  ): Promise<CallResult<K>> {
+  private call<K extends keyof WorkerFunctions>(fn: K, args: ArgsOf<K>): Promise<CallResult<K>> {
     return new Promise<CallResult<K>>((resolve, reject) => {
       const id = ++this.nextId;
       this.pending.set(id, { resolve: resolve as (value: unknown) => void, reject });
       this.worker.postMessage({ type: 'call', id, fn, args });
-      abortSignal.addEventListener('abort', () => {
-        if (this.pending.delete(id)) {
-          reject(new DOMException('Aborted', 'AbortError'));
-        }
-      });
     });
   }
 }
