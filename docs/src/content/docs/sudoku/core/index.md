@@ -5,9 +5,9 @@ description: Overview of the sudoku-core and sudoku-wasm Rust packages
 
 The Sudoku logic lives in two Rust packages:
 
-| Package | Purpose |
-|---|---|
-| `packages/sudoku-core` | Pure Rust library — all game logic, no WASM dependency |
+| Package                | Purpose                                                                     |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `packages/sudoku-core` | Pure Rust library — all game logic, no WASM dependency                      |
 | `packages/sudoku-wasm` | Thin WASM bindings via `wasm-bindgen` — exposes `sudoku-core` to JavaScript |
 
 ## Architecture
