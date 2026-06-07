@@ -7,11 +7,11 @@ The app has four routes and a result overlay. Navigation is anchored by a persis
 
 ## Routes
 
-| Route | Tab | Description |
-|---|---|---|
-| `/home` | Home | Start screen — entry point on every app open |
-| `/game` | — | Active puzzle — not a tab, entered from Home only |
-| `/history` | History | List of past games (placeholder until SQLite) |
+| Route       | Tab      | Description                                          |
+| ----------- | -------- | ---------------------------------------------------- |
+| `/home`     | Home     | Start screen — entry point on every app open         |
+| `/game`     | —        | Active puzzle — not a tab, entered from Home only    |
+| `/history`  | History  | List of past games (placeholder until SQLite)        |
 | `/settings` | Settings | Themes, accessibility, app preferences (placeholder) |
 
 `/game` has no tab entry because it is always reached via an intentional action (Start Game or Continue), never by tapping a tab directly.
@@ -30,11 +30,11 @@ When the user is on `/game`, the tab bar remains visible. Tapping **Home** navig
 
 The start screen adapts based on the current App State:
 
-| App State (`sudoku:app.phase`) | Button shown |
-|---|---|
-| `idle` | **Start Game** |
-| `playing` | **Continue** + **New Game** |
-| `paused` | **Continue** + **New Game** |
+| App State (`sudoku:app.phase`) | Button shown                |
+| ------------------------------ | --------------------------- |
+| `idle`                         | **Start Game**              |
+| `playing`                      | **Continue** + **New Game** |
+| `paused`                       | **Continue** + **New Game** |
 
 "Continue" and "New Game" are visually distinct — Continue is the primary action, New Game is secondary/destructive — so the user cannot accidentally discard a game.
 
@@ -62,6 +62,7 @@ The last selected difficulty is pre-selected. After pressing Start, the App Stat
 The active puzzle. No separate route for each game — always `/game`.
 
 The screen contains:
+
 - The 9×9 Sudoku board
 - A number input pad (1–9 + erase)
 - A hint button

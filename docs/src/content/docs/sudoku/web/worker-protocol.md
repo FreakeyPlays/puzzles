@@ -8,25 +8,25 @@ description: TypeScript types for the WASM Web Worker interface
 ## Shared Types
 
 ```typescript
-export type Difficulty = 'easy' | 'medium' | 'hard' | 'extreme';
+export type Difficulty = "easy" | "medium" | "hard" | "extreme";
 
 export type GenerateResult = {
-  puzzle: string;       // 81 chars, '0' = empty
-  solution: string;     // 81 chars, fully solved
+  puzzle: string; // 81 chars, '0' = empty
+  solution: string; // 81 chars, fully solved
   difficulty: Difficulty;
-  seed: number;         // u32 — always present, even if not passed as input
+  seed: number; // u32 — always present, even if not passed as input
 };
 
 export type ValidateResult = {
   valid: boolean;
   solved: boolean;
-  conflicts: number[];  // cell indices (0–80); empty when valid
+  conflicts: number[]; // cell indices (0–80); empty when valid
 };
 
 export type HintResult = {
-  index: number;        // cell index (0–80)
-  value: number;        // 1–9
-  technique: string;    // e.g. "naked_single", "hidden_single"
+  index: number; // cell index (0–80)
+  value: number; // 1–9
+  technique: string; // e.g. "naked_single", "hidden_single"
 };
 ```
 
@@ -41,15 +41,15 @@ export type WorkerFunctions = {
     result: GenerateResult;
   };
   solve: {
-    args: string;         // 81-char board string
+    args: string; // 81-char board string
     result: string | null;
   };
   validate: {
-    args: string;         // 81-char board string
+    args: string; // 81-char board string
     result: ValidateResult;
   };
   hint: {
-    args: string;         // 81-char board string
+    args: string; // 81-char board string
     result: HintResult | null;
   };
 };
@@ -86,7 +86,7 @@ All board arguments are **81-character strings**:
 const value = board[row * 9 + col]; // '0'–'9'
 
 // Counting given cells:
-const givens = board.split('').filter(c => c !== '0').length;
+const givens = board.split("").filter((c) => c !== "0").length;
 
 // Applying a user edit:
 const updated = board.substring(0, index) + value + board.substring(index + 1);

@@ -7,10 +7,10 @@ The app uses two separate LocalStorage keys. Settings are not yet implemented.
 
 ## Keys
 
-| Key | Purpose |
-|---|---|
-| `sudoku:app` | App-level phase — controls what the start screen shows |
-| `sudoku:puzzle` | Active puzzle state — persists across page reloads |
+| Key             | Purpose                                                |
+| --------------- | ------------------------------------------------------ |
+| `sudoku:app`    | App-level phase — controls what the start screen shows |
+| `sudoku:puzzle` | Active puzzle state — persists across page reloads     |
 
 ---
 
@@ -20,16 +20,16 @@ Controls what the home screen shows and remembers the last selected difficulty.
 
 ```typescript
 type AppState = {
-  phase: 'idle' | 'playing' | 'paused';
+  phase: "idle" | "playing" | "paused";
   lastDifficulty: Difficulty; // pre-selected in the difficulty modal
 };
 ```
 
-| Field | Values | Meaning |
-|---|---|---|
-| `phase` | `'idle'` | No active game — show **Start Game** |
+| Field   | Values      | Meaning                                                           |
+| ------- | ----------- | ----------------------------------------------------------------- |
+| `phase` | `'idle'`    | No active game — show **Start Game**                              |
 | `phase` | `'playing'` | Active game, timer was running — show **Continue** + **New Game** |
-| `phase` | `'paused'` | Active game, timer was stopped — show **Continue** + **New Game** |
+| `phase` | `'paused'`  | Active game, timer was stopped — show **Continue** + **New Game** |
 
 `loading` is a runtime-only state and is never written here. If the app is killed during puzzle generation, `phase` remains `'idle'`.
 
@@ -43,11 +43,11 @@ The full state of the current puzzle. Written on every user move.
 
 ```typescript
 type PuzzleState = {
-  puzzle: string;         // 81 chars — original board, never changes
-  edits: string;          // 81 chars — user-placed values, '0' where nothing was placed
+  puzzle: string; // 81 chars — original board, never changes
+  edits: string; // 81 chars — user-placed values, '0' where nothing was placed
   difficulty: Difficulty; // 'easy' | 'medium' | 'hard' | 'extreme'
-  seed: number;           // u32 — identifies the puzzle for sharing / challenge mode
-  status: 'in_progress' | 'solved' | 'abandoned';
+  seed: number; // u32 — identifies the puzzle for sharing / challenge mode
+  status: "in_progress" | "solved" | "abandoned";
   elapsedSeconds: number; // timer — persisted so it survives page reloads
 };
 ```
@@ -61,9 +61,9 @@ type PuzzleState = {
 ```typescript
 function currentBoard(puzzle: string, edits: string): string {
   return puzzle
-    .split('')
-    .map((cell, i) => (edits[i] !== '0' ? edits[i] : cell))
-    .join('');
+    .split("")
+    .map((cell, i) => (edits[i] !== "0" ? edits[i] : cell))
+    .join("");
 }
 ```
 
