@@ -16,7 +16,7 @@ export default defineConfig({
       sidebar: [
         { slug: "getting-started" },
         {
-          label: "Reposiotry",
+          label: "Repository",
           items: [{ autogenerate: { directory: "repo" } }],
         },
         {
