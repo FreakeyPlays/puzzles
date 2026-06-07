@@ -1,16 +1,29 @@
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { AppComponent } from './app.component';
-import { SudokuService } from './sudoku/sudoku.service';
+import { AppService } from './core/services/app.service';
+import { routes } from './app.routes';
 
-const mockSudokuService = {
-  factorial: () => Promise.resolve({ value: '1', durationMs: 0 }),
+const mockAppService = {
+  phase: signal('idle' as const),
+  lastDifficulty: signal('medium' as const),
+  isRestoring: signal(false),
+  pauseGame: () => {},
+  continueGame: () => {},
+  startGame: () => Promise.resolve(),
+  newGame: () => Promise.resolve(),
+  endGame: () => {},
 };
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [{ provide: SudokuService, useValue: mockSudokuService }],
+      providers: [
+        provideRouter(routes),
+        { provide: AppService, useValue: mockAppService },
+      ],
     }).compileComponents();
   });
 
@@ -18,12 +31,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('sudoku-web');
   });
 });

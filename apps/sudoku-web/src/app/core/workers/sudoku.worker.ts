@@ -1,5 +1,5 @@
 /// <reference lib="webworker" />
-import init, { get_factorial } from '@repo/sudoku-wasm';
+import init, { generate, hint, solve, validate } from '@repo/sudoku-wasm';
 import type { ArgsOf, ResultOf, WorkerFunctions, WorkerInboundMessage } from './worker-protocol';
 
 type HandlerMap = {
@@ -7,11 +7,17 @@ type HandlerMap = {
 };
 
 const handlers: HandlerMap = {
-  get_factorial: (args) => get_factorial(args),
+  generate: (args) => generate(args.difficulty, args.seed),
+  solve: (args) => solve(args),
+  validate: (args) => validate(args),
+  hint: (args) => hint(args),
 };
 
-function dispatch<K extends keyof WorkerFunctions>(fn: K, args: ArgsOf<K>): ResultOf<K> {
-  return (handlers[fn] as (a: ArgsOf<K>) => ResultOf<K>)(args);
+function dispatch<K extends keyof WorkerFunctions>(
+  fn: K,
+  args: ArgsOf<K>,
+): ResultOf<K> | Promise<ResultOf<K>> {
+  return (handlers[fn] as (a: ArgsOf<K>) => ResultOf<K> | Promise<ResultOf<K>>)(args);
 }
 
 const {
@@ -38,7 +44,7 @@ addEventListener('message', async (event: MessageEvent<WorkerInboundMessage>) =>
   try {
     await ready;
     const args = 'args' in msg ? msg.args : undefined;
-    const result = dispatch(msg.fn, args as never);
+    const result = await dispatch(msg.fn, args as never);
     postMessage({
       type: 'ok',
       id: msg.id,
