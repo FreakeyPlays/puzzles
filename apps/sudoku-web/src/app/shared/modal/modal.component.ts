@@ -8,8 +8,8 @@ import type { Difficulty } from '../../core/models/difficulty.model';
 })
 export class ModalComponent {
   readonly initialDifficulty = input<Difficulty>('medium');
-  readonly cancel = output<void>();
-  readonly confirm = output<Difficulty>();
+  readonly cancelModal = output<void>();
+  readonly confirmModal = output<Difficulty>();
 
   protected readonly difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
   protected readonly selected = linkedSignal(() => this.initialDifficulty());
@@ -19,10 +19,10 @@ export class ModalComponent {
   }
 
   onCancel(): void {
-    this.cancel.emit();
+    this.cancelModal.emit();
   }
 
   onConfirm(): void {
-    this.confirm.emit(this.selected());
+    this.confirmModal.emit(this.selected());
   }
 }

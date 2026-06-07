@@ -30,8 +30,7 @@ export class BoardComponent {
 
     const selRow = selected !== null ? Math.floor(selected / 9) : -1;
     const selCol = selected !== null ? selected % 9 : -1;
-    const selBox =
-      selected !== null ? Math.floor(selRow / 3) * 3 + Math.floor(selCol / 3) : -1;
+    const selBox = selected !== null ? Math.floor(selRow / 3) * 3 + Math.floor(selCol / 3) : -1;
 
     const cells: Cell[] = Array.from({ length: 81 }, (_, i) => {
       const row = Math.floor(i / 9);
@@ -43,16 +42,12 @@ export class BoardComponent {
       const value = editChar !== '0' ? editChar : isGiven ? puzzleChar : '';
       const isSelected = i === selected;
       const isPeer =
-        !isSelected &&
-        selected !== null &&
-        (row === selRow || col === selCol || box === selBox);
+        !isSelected && selected !== null && (row === selRow || col === selCol || box === selBox);
 
       return { i, row, col, box, isGiven, value, isSelected, isPeer };
     });
 
-    return Array.from({ length: 9 }, (_, boxIndex) =>
-      cells.filter((c) => c.box === boxIndex),
-    );
+    return Array.from({ length: 9 }, (_, boxIndex) => cells.filter((c) => c.box === boxIndex));
   });
 
   onCellClick(index: number): void {

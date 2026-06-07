@@ -13,7 +13,9 @@
             [class.text-blue-700]="!cell.isGiven && !!cell.value && !cell.isSelected"
             [class.text-white]="cell.isSelected && (cell.isGiven || !!cell.value)"
             (click)="onCellClick(cell.i)"
-          >{{ cell.value }}</button>
+          >
+            {{ cell.value }}
+          </button>
         }
       </div>
     }

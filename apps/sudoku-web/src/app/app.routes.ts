@@ -5,14 +5,12 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
-    loadComponent: () =>
-      import('./pages/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'game',
     canActivate: [gameGuard],
-    loadComponent: () =>
-      import('./pages/game/game.component').then((m) => m.GameComponent),
+    loadComponent: () => import('./pages/game/game.component').then((m) => m.GameComponent),
   },
   {
     path: 'history',

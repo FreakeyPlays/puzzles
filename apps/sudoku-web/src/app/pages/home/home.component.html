@@ -41,7 +41,7 @@
 @if (showModal()) {
   <app-modal
     [initialDifficulty]="app.lastDifficulty()"
-    (cancel)="closeModal()"
-    (confirm)="hasActiveGame() ? onNewGame($event) : onStartGame($event)"
+    (cancelModal)="closeModal()"
+    (confirmModal)="hasActiveGame() ? onNewGame($event) : onStartGame($event)"
   />
 }

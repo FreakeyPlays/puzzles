@@ -20,10 +20,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [
-        provideRouter(routes),
-        { provide: AppService, useValue: mockAppService },
-      ],
+      providers: [provideRouter(routes), { provide: AppService, useValue: mockAppService }],
     }).compileComponents();
   });
 

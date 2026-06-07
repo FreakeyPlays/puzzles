@@ -1,5 +1,7 @@
 use serde::Serialize;
-use sudoku_core::{generate as core_generate, hint as core_hint, solve as core_solve, validate as core_validate};
+use sudoku_core::{
+    generate as core_generate, hint as core_hint, solve as core_solve, validate as core_validate,
+};
 use wasm_bindgen::prelude::*;
 
 #[derive(Serialize)]
@@ -28,7 +30,9 @@ pub struct HintResult {
 pub fn generate(difficulty: Option<String>, seed: Option<u32>) -> Result<JsValue, JsError> {
     let difficulty_str = difficulty.as_deref().unwrap_or("medium");
     if !["easy", "medium", "hard", "extreme"].contains(&difficulty_str) {
-        return Err(JsError::new(&format!("Invalid difficulty: {difficulty_str}")));
+        return Err(JsError::new(&format!(
+            "Invalid difficulty: {difficulty_str}"
+        )));
     }
     let result = core_generate(difficulty_str, seed);
     let out = GenerateResult {
