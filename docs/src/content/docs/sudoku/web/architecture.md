@@ -30,14 +30,14 @@ src/app/
 
 ### Folder rules
 
-| Folder | Rule |
-|---|---|
-| `core/models/` | TypeScript interfaces and types meaningful to the whole app |
-| `core/services/` | Singleton services — no UI, no templates, used app-wide |
-| `core/workers/` | Web Worker source files and their internal protocol types |
-| `core/guards/` | Functional route guards |
-| `pages/` | One subfolder per route. Components that only appear in that route live here. |
-| `shared/` | Has a template. Used by **two or more** page folders. |
+| Folder           | Rule                                                                          |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `core/models/`   | TypeScript interfaces and types meaningful to the whole app                   |
+| `core/services/` | Singleton services — no UI, no templates, used app-wide                       |
+| `core/workers/`  | Web Worker source files and their internal protocol types                     |
+| `core/guards/`   | Functional route guards                                                       |
+| `pages/`         | One subfolder per route. Components that only appear in that route live here. |
+| `shared/`        | Has a template. Used by **two or more** page folders.                         |
 
 If a component is only used within one page, it stays in that page's folder regardless of how reusable it might feel.
 
@@ -70,12 +70,12 @@ protected readonly hasActiveGame = computed(() => this.app.phase() !== 'idle');
 
 ## Routing
 
-| Route | Guard | Notes |
-|---|---|---|
-| `/home` | — | Entry point on every app open |
-| `/game` | `gameGuard` | Redirects to `/home` if `phase === 'idle'` |
-| `/history` | — | Placeholder |
-| `/settings` | — | Placeholder |
+| Route       | Guard       | Notes                                      |
+| ----------- | ----------- | ------------------------------------------ |
+| `/home`     | —           | Entry point on every app open              |
+| `/game`     | `gameGuard` | Redirects to `/home` if `phase === 'idle'` |
+| `/history`  | —           | Placeholder                                |
+| `/settings` | —           | Placeholder                                |
 
 `gameGuard` lives in `core/guards/game.guard.ts`. It allows `loading`, `playing`, and `paused` through and redirects `idle` to `/home`. This prevents the Game screen from rendering when there is no active puzzle.
 

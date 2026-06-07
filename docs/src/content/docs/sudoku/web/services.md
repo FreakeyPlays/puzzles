@@ -26,21 +26,21 @@ No circular dependencies. `AppService` is the orchestrator — the only service 
 
 ### Public signals
 
-| Signal | Type | Description |
-|---|---|---|
-| `phase` | `Signal<'idle' \| 'loading' \| 'playing' \| 'paused'>` | Current app phase |
-| `lastDifficulty` | `Signal<Difficulty>` | Pre-selected in the difficulty modal; updated on every new game |
-| `isRestoring` | `Signal<boolean>` | `true` while `solve()` recomputes the solution on app restart |
+| Signal           | Type                                                   | Description                                                     |
+| ---------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
+| `phase`          | `Signal<'idle' \| 'loading' \| 'playing' \| 'paused'>` | Current app phase                                               |
+| `lastDifficulty` | `Signal<Difficulty>`                                   | Pre-selected in the difficulty modal; updated on every new game |
+| `isRestoring`    | `Signal<boolean>`                                      | `true` while `solve()` recomputes the solution on app restart   |
 
 ### Public methods
 
-| Method | Called by | Description |
-|---|---|---|
-| `startGame(difficulty)` | `HomeComponent` | Transitions `idle → loading → playing`, generates a new puzzle |
-| `continueGame()` | `HomeComponent` | Transitions `paused → playing`, resumes timer |
-| `pauseGame()` | `VisibilityService` effect, navigation events | Transitions `playing → paused`, stops and persists timer |
-| `newGame(difficulty)` | `HomeComponent`, `GameComponent` | Marks current puzzle `abandoned`, transitions to `loading → playing` |
-| `endGame()` | `GameComponent` (Result Overlay — Home button) | Transitions `playing → idle`, navigates to `/home` after call returns |
+| Method                  | Called by                                      | Description                                                           |
+| ----------------------- | ---------------------------------------------- | --------------------------------------------------------------------- |
+| `startGame(difficulty)` | `HomeComponent`                                | Transitions `idle → loading → playing`, generates a new puzzle        |
+| `continueGame()`        | `HomeComponent`                                | Transitions `paused → playing`, resumes timer                         |
+| `pauseGame()`           | `VisibilityService` effect, navigation events  | Transitions `playing → paused`, stops and persists timer              |
+| `newGame(difficulty)`   | `HomeComponent`, `GameComponent`               | Marks current puzzle `abandoned`, transitions to `loading → playing`  |
+| `endGame()`             | `GameComponent` (Result Overlay — Home button) | Transitions `playing → idle`, navigates to `/home` after call returns |
 
 Components call these methods and then handle `router.navigate()` themselves — `AppService` does not touch the router.
 
@@ -65,34 +65,34 @@ The Home screen shows the **Continue** button immediately (phase is restored fro
 
 ### Public signals
 
-| Signal | Type | Description |
-|---|---|---|
-| `puzzle` | `Signal<string>` | Original 81-char board — given cells, never changes after load |
-| `edits` | `Signal<string>` | User-placed values, `'0'` where nothing was placed |
-| `currentBoard` | `Signal<string>` | `computed` — merges `puzzle` and `edits` |
-| `elapsedSeconds` | `Signal<number>` | Timer count in seconds |
-| `difficulty` | `Signal<Difficulty>` | Current puzzle difficulty |
-| `status` | `Signal<'in_progress' \| 'solved' \| 'abandoned'>` | Puzzle lifecycle state |
+| Signal           | Type                                               | Description                                                    |
+| ---------------- | -------------------------------------------------- | -------------------------------------------------------------- |
+| `puzzle`         | `Signal<string>`                                   | Original 81-char board — given cells, never changes after load |
+| `edits`          | `Signal<string>`                                   | User-placed values, `'0'` where nothing was placed             |
+| `currentBoard`   | `Signal<string>`                                   | `computed` — merges `puzzle` and `edits`                       |
+| `elapsedSeconds` | `Signal<number>`                                   | Timer count in seconds                                         |
+| `difficulty`     | `Signal<Difficulty>`                               | Current puzzle difficulty                                      |
+| `status`         | `Signal<'in_progress' \| 'solved' \| 'abandoned'>` | Puzzle lifecycle state                                         |
 
 ### Public methods
 
 Called by `AppService`:
 
-| Method | Description |
-|---|---|
+| Method                       | Description                                                    |
+| ---------------------------- | -------------------------------------------------------------- |
 | `beginNewPuzzle(difficulty)` | Calls `SudokuService.generate()`, sets up a fresh puzzle state |
-| `loadPuzzle(state)` | Restores puzzle from a `PuzzleState` record on app restart |
-| `startTimer()` | Starts the 1-second interval |
-| `pauseTimer()` | Clears the interval, writes `PuzzleState` to `StorageService` |
-| `markAbandoned()` | Sets `status = 'abandoned'`, writes to `StorageService` |
+| `loadPuzzle(state)`          | Restores puzzle from a `PuzzleState` record on app restart     |
+| `startTimer()`               | Starts the 1-second interval                                   |
+| `pauseTimer()`               | Clears the interval, writes `PuzzleState` to `StorageService`  |
+| `markAbandoned()`            | Sets `status = 'abandoned'`, writes to `StorageService`        |
 
 Called by components:
 
-| Method | Description |
-|---|---|
-| `placeDigit(index, value)` | Updates `edits`, checks win condition, writes to `StorageService` |
-| `eraseDigit(index)` | Clears `edits[index]`, writes to `StorageService` |
-| `requestHint()` | Calls `SudokuService.hint()`, places the result via `placeDigit()` |
+| Method                     | Description                                                        |
+| -------------------------- | ------------------------------------------------------------------ |
+| `placeDigit(index, value)` | Updates `edits`, checks win condition, writes to `StorageService`  |
+| `eraseDigit(index)`        | Clears `edits[index]`, writes to `StorageService`                  |
+| `requestHint()`            | Calls `SudokuService.hint()`, places the result via `placeDigit()` |
 
 ### Persistence
 
@@ -103,8 +103,8 @@ Called by components:
 After every `placeDigit()`, `GameService` checks:
 
 ```typescript
-if (!currentBoard.includes('0') && currentBoard === this.solution) {
-  this.status.set('solved');
+if (!currentBoard.includes("0") && currentBoard === this.solution) {
+  this.status.set("solved");
 }
 ```
 
