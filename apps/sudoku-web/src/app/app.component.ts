@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { get_factorial } from '@repo/sudoku-wasm';
+import { Component, inject, resource, signal } from '@angular/core';
+import { SudokuService } from './sudoku/sudoku.service';
 
 @Component({
   selector: 'app-root',
@@ -8,40 +8,38 @@ import { get_factorial } from '@repo/sudoku-wasm';
   styles: ``,
 })
 export class AppComponent {
+  private readonly sudoku = inject(SudokuService);
+
   protected readonly title = signal('sudoku-web');
+
+  private readonly factorialInput = signal<number | undefined>(undefined);
+  protected readonly factorialResult = resource({
+    params: () => this.factorialInput(),
+    loader: ({ params }) => this.sudoku.factorial(params),
+  });
+
   jsResult = signal<string>('');
-  rsResult = signal<string>('');
   jsTime = signal<string>('');
-  rsTime = signal<string>('');
-  calculating = signal<boolean>(false);
+  jsCalculating = signal(false);
 
   calculate(inp: number | string) {
-    this.calculating.set(true);
+    const n = typeof inp === 'number' ? inp : parseInt(inp, 10);
+    this.factorialInput.set(n);
 
+    this.jsCalculating.set(true);
     setTimeout(() => {
-      const n = typeof inp === 'number' ? inp : parseInt(inp, 10);
-      const jsTimeStart = performance.now();
+      const start = performance.now();
       let f = 0;
-      for (let i = 0; i < 10000000; i++) {
+      for (let i = 0; i < 10_000_000; i++) {
         f = factorial(n);
       }
       this.jsResult.set(f.toString());
-      this.jsTime.set(((performance.now() - jsTimeStart) / 1000).toFixed(4) + 's');
-
-      const rsTimeStart = performance.now();
-      this.rsResult.set(get_factorial(n));
-      this.rsTime.set(((performance.now() - rsTimeStart) / 1000).toFixed(4) + 's');
-
-      this.calculating.set(false);
+      this.jsTime.set(((performance.now() - start) / 1000).toFixed(4) + 's');
+      this.jsCalculating.set(false);
     }, 50);
   }
 }
 
-// recursive factorial for JS benchmark comparison
 function factorial(x: number): number {
-  if (x === 0) {
-    return 1;
-  } else {
-    return x * factorial(x - 1);
-  }
+  return x === 0 ? 1 : x * factorial(x - 1);
 }

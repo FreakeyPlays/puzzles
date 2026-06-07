@@ -1,13 +1,19 @@
 <h1>{{ title() }}</h1>
 <input max="22" min="1" type="number" placeholder="Input a number" #inp />
 
-<button type="button" (click)="calculate(inp.value)" [disabled]="calculating()">Calculate</button>
+<button type="button" (click)="calculate(inp.value)" [disabled]="jsCalculating()">Calculate</button>
 
-@if (!calculating()) {
-  @if (jsResult()) {
-    <div>Result in JS: {{ jsResult() }}, calculated in {{ jsTime() }}</div>
-  }
-  @if (rsResult()) {
-    <div>Result in Rust: {{ rsResult() }}, calculated in {{ rsTime() }}</div>
-  }
+@if (jsResult()) {
+  <div>Result in JS: {{ jsResult() }}, calculated in {{ jsTime() }}</div>
+}
+
+@if (factorialResult.isLoading()) {
+  <div>Rust (worker): calculating…</div>
+} @else if (factorialResult.hasValue()) {
+  <div>
+    Result in Rust (worker): {{ factorialResult.value()!.value }}, calculated in
+    {{ (factorialResult.value()!.durationMs / 1000).toFixed(4) }}s
+  </div>
+} @else if (factorialResult.error()) {
+  <div>Rust error: {{ factorialResult.error() }}</div>
 }
