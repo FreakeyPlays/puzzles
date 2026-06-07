@@ -16,18 +16,24 @@ The app uses two separate LocalStorage keys. Settings are not yet implemented.
 
 ## `sudoku:app`
 
-Controls whether the home screen shows "Start New Game" or "Continue".
+Controls what the home screen shows and remembers the last selected difficulty.
 
 ```typescript
 type AppState = {
-  phase: 'idle' | 'in_progress';
+  phase: 'idle' | 'playing' | 'paused';
+  lastDifficulty: Difficulty; // pre-selected in the difficulty modal
 };
 ```
 
 | Field | Values | Meaning |
 |---|---|---|
-| `phase` | `'idle'` | No active game — show "Start New Game" |
-| `phase` | `'in_progress'` | Active game exists — show "Continue" button |
+| `phase` | `'idle'` | No active game — show **Start Game** |
+| `phase` | `'playing'` | Active game, timer was running — show **Continue** + **New Game** |
+| `phase` | `'paused'` | Active game, timer was stopped — show **Continue** + **New Game** |
+
+`loading` is a runtime-only state and is never written here. If the app is killed during puzzle generation, `phase` remains `'idle'`.
+
+See [App State Machine](./app-state) for the full state transition model.
 
 ---
 
