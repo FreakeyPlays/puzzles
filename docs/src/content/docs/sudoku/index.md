@@ -9,11 +9,11 @@ Sudoku is a number placement puzzle played on a 9×9 grid divided into nine 3×3
 
 The Sudoku implementation is split across three packages:
 
-| Package | Language | Role |
-|---|---|---|
-| `packages/sudoku-core` | Rust | Solver, generator, validator, hint engine |
-| `packages/sudoku-wasm` | Rust + `wasm-bindgen` | Exposes `sudoku-core` to JavaScript |
-| `apps/sudoku-web` | TypeScript / Angular 22 | PWA frontend — UI, state, persistence |
+| Package                | Language                | Role                                      |
+| ---------------------- | ----------------------- | ----------------------------------------- |
+| `packages/sudoku-core` | Rust                    | Solver, generator, validator, hint engine |
+| `packages/sudoku-wasm` | Rust + `wasm-bindgen`   | Exposes `sudoku-core` to JavaScript       |
+| `apps/sudoku-web`      | TypeScript / Angular 22 | PWA frontend — UI, state, persistence     |
 
 The Rust layer runs in a **Web Worker** so it never blocks the main thread. `SudokuService` bridges the Angular app to the worker via a typed message protocol.
 
@@ -31,11 +31,11 @@ See [WASM API](./core/wasm-api) for the full function signatures that operate on
 
 Each puzzle moves through three statuses:
 
-| Status | Meaning |
-|---|---|
-| `in_progress` | The user is actively playing |
-| `solved` | The board matches the solution |
-| `abandoned` | The user started a new game before finishing |
+| Status        | Meaning                                      |
+| ------------- | -------------------------------------------- |
+| `in_progress` | The user is actively playing                 |
+| `solved`      | The board matches the solution               |
+| `abandoned`   | The user started a new game before finishing |
 
 The app state machine (`idle → loading → playing ↔ paused`) wraps this lifecycle. See [App State Machine](./web/app-state) for the full transition diagram.
 

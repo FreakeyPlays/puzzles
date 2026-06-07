@@ -5,11 +5,11 @@ description: Prerequisites, install steps, and common dev commands for the Puzzl
 
 ## Prerequisites
 
-| Tool | Version | Install |
-|---|---|---|
-| [Bun](https://bun.sh) | 1.3.13 | `curl -fsSL https://bun.sh/install \| bash` |
-| [Node.js](https://nodejs.org) | ≥ 24 | Via `nvm` or direct download |
-| [Rust toolchain](https://rustup.rs) | stable | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
+| Tool                                | Version | Install                                                           |
+| ----------------------------------- | ------- | ----------------------------------------------------------------- |
+| [Bun](https://bun.sh)               | 1.3.13  | `curl -fsSL https://bun.sh/install \| bash`                       |
+| [Node.js](https://nodejs.org)       | ≥ 24    | Via `nvm` or direct download                                      |
+| [Rust toolchain](https://rustup.rs) | stable  | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
 
 After installing Rust, add the WASM target:
 
@@ -29,14 +29,14 @@ This installs all workspace packages in one pass. Bun also builds `sudoku-wasm` 
 
 All commands run from the **repo root** via Turbo. Turbo handles task ordering — you never need to `cd` into individual packages.
 
-| Command | What it does |
-|---|---|
-| `bun dev` | Run all packages in watch mode |
-| `bun build` | Build every app and package (Rust → WASM → Angular) |
-| `bun test` | Run all test suites |
-| `bun run lint` | Lint all code (TypeScript + Rust) |
-| `bun run format` | Format all files via Prettier |
-| `bun run check-types` | TypeScript type check across all packages |
+| Command               | What it does                                        |
+| --------------------- | --------------------------------------------------- |
+| `bun dev`             | Run all packages in watch mode                      |
+| `bun build`           | Build every app and package (Rust → WASM → Angular) |
+| `bun test`            | Run all test suites                                 |
+| `bun run lint`        | Lint all code (TypeScript + Rust)                   |
+| `bun run format`      | Format all files via Prettier                       |
+| `bun run check-types` | TypeScript type check across all packages           |
 
 To target a single package, use the `--filter` flag:
 

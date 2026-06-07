@@ -7,14 +7,14 @@ This is a [Turborepo](https://turborepo.dev) monorepo managed with [Bun](https:/
 
 ## Package layout
 
-| Package | Type | Description |
-|---|---|---|
-| `apps/sudoku-web` | Angular PWA | The Sudoku web app — the only frontend for now |
-| `packages/sudoku-core` | Rust library | Pure puzzle logic: solver, generator, validator |
-| `packages/sudoku-wasm` | WASM bindings | Exposes `sudoku-core` to JavaScript via `wasm-bindgen` |
-| `packages/eslint-config` | Shared config | ESLint rule sets used by all TypeScript packages |
-| `packages/typescript-config` | Shared config | `tsconfig` base files used by all TypeScript packages |
-| `docs` | Astro Starlight | This documentation site |
+| Package                      | Type            | Description                                            |
+| ---------------------------- | --------------- | ------------------------------------------------------ |
+| `apps/sudoku-web`            | Angular PWA     | The Sudoku web app — the only frontend for now         |
+| `packages/sudoku-core`       | Rust library    | Pure puzzle logic: solver, generator, validator        |
+| `packages/sudoku-wasm`       | WASM bindings   | Exposes `sudoku-core` to JavaScript via `wasm-bindgen` |
+| `packages/eslint-config`     | Shared config   | ESLint rule sets used by all TypeScript packages       |
+| `packages/typescript-config` | Shared config   | `tsconfig` base files used by all TypeScript packages  |
+| `docs`                       | Astro Starlight | This documentation site                                |
 
 The intended shape for every puzzle is the same: a Rust core crate → WASM bindings → one frontend app under `apps/`. When a second puzzle is added, it will follow the same pattern: `<name>-core` → `<name>-wasm` → `apps/<name>-web`.
 
@@ -52,14 +52,14 @@ Runs on every push to `main`. Automatically generates changesets from commit mes
 
 All secrets live in **[Bitwarden Secret Manager](https://bitwarden.com/products/secrets-manager/)**, not in GitHub repository secrets. The only GitHub secret is `BW_ACCESS_TOKEN` — a machine-account token that lets the workflows fetch everything else.
 
-| Secret | Used by |
-|---|---|
-| `CLOUDFLARE_API_TOKEN` | `deploy.yml` — Cloudflare Pages deploy |
-| `CLOUDFLARE_ACCOUNT_ID` | `deploy.yml` — Cloudflare Pages deploy |
-| `ANDROID_KEYSTORE_BASE64` | `release.yml` — APK signing. Also the on/off switch: without it the APK build is skipped. |
-| `ANDROID_KEY_ALIAS` | `release.yml` — APK signing |
-| `ANDROID_KEYSTORE_PASSWORD` | `release.yml` — APK signing |
-| `ANDROID_KEY_PASSWORD` | `release.yml` — APK signing |
+| Secret                      | Used by                                                                                   |
+| --------------------------- | ----------------------------------------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`      | `deploy.yml` — Cloudflare Pages deploy                                                    |
+| `CLOUDFLARE_ACCOUNT_ID`     | `deploy.yml` — Cloudflare Pages deploy                                                    |
+| `ANDROID_KEYSTORE_BASE64`   | `release.yml` — APK signing. Also the on/off switch: without it the APK build is skipped. |
+| `ANDROID_KEY_ALIAS`         | `release.yml` — APK signing                                                               |
+| `ANDROID_KEYSTORE_PASSWORD` | `release.yml` — APK signing                                                               |
+| `ANDROID_KEY_PASSWORD`      | `release.yml` — APK signing                                                               |
 
 The Android keystore is **shared across all apps** — a new puzzle app needs no new secrets.
 
@@ -85,11 +85,11 @@ All TypeScript packages extend one of these via `"extends": "@repo/typescript-co
 
 Husky runs `lint-staged` before every commit:
 
-| Files matched | Checks |
-|---|---|
-| `apps/sudoku-web/**/*.{ts,html}` | ESLint + Prettier |
-| `packages/**/*.rs` | `cargo clippy` + `cargo fmt` |
-| `*.{ts,html,json,css,md}` (root) | Prettier |
+| Files matched                    | Checks                       |
+| -------------------------------- | ---------------------------- |
+| `apps/sudoku-web/**/*.{ts,html}` | ESLint + Prettier            |
+| `packages/**/*.rs`               | `cargo clippy` + `cargo fmt` |
+| `*.{ts,html,json,css,md}` (root) | Prettier                     |
 
 ## Adding a new puzzle
 
