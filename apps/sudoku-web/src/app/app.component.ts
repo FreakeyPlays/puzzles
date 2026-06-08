@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
+import { AppService } from './core/services/app.service';
 import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
 
 @Component({
@@ -21,11 +22,15 @@ export class AppComponent {
   constructor() {
     const router = inject(Router);
     const document = inject(DOCUMENT);
+    const app = inject(AppService);
 
     router.events.pipe(
       filter(e => e instanceof NavigationEnd),
       takeUntilDestroyed(),
-    ).subscribe(() => {
+    ).subscribe((e) => {
+      if (!(e as NavigationEnd).urlAfterRedirects.startsWith('/game') && app.phase() === 'playing') {
+        app.pauseGame();
+      }
       document.getElementById('main-content')?.focus({ preventScroll: true });
     });
   }
