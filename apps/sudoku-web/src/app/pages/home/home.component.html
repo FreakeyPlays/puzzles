@@ -1,0 +1,47 @@
+<div class="flex min-h-full flex-col items-center justify-center gap-8 px-6 py-12">
+  <div class="text-center">
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900">Sudoku</h1>
+    <p class="mt-2 text-gray-500">Fill the grid with numbers 1–9</p>
+  </div>
+
+  <div class="flex w-full max-w-xs flex-col gap-3">
+    @if (hasActiveGame()) {
+      <button
+        type="button"
+        class="w-full rounded-2xl bg-blue-600 px-6 py-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50"
+        [disabled]="app.isRestoring()"
+        (click)="continueGame()"
+      >
+        @if (app.isRestoring()) {
+          Restoring…
+        } @else {
+          Continue Game
+        }
+      </button>
+
+      <button
+        type="button"
+        class="w-full rounded-2xl border border-gray-300 px-6 py-4 text-base font-semibold text-gray-700 transition-colors hover:bg-gray-50 active:bg-gray-100"
+        (click)="openModal()"
+      >
+        New Game
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="w-full rounded-2xl bg-blue-600 px-6 py-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 active:bg-blue-800"
+        (click)="openModal()"
+      >
+        Start Game
+      </button>
+    }
+  </div>
+</div>
+
+@if (showModal()) {
+  <app-modal
+    [initialDifficulty]="app.lastDifficulty()"
+    (cancelModal)="closeModal()"
+    (confirmModal)="hasActiveGame() ? onNewGame($event) : onStartGame($event)"
+  />
+}

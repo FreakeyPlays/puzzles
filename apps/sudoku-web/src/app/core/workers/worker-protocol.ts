@@ -1,10 +1,28 @@
+import type { Difficulty, GenerateResult, HintResult, ValidateResult } from '@repo/sudoku-wasm';
+
 export type WorkerFunctions = {
-  get_factorial: { args: number; result: string };
+  generate: {
+    args: { difficulty?: Difficulty; seed?: number };
+    result: GenerateResult;
+  };
+  solve: {
+    args: string;
+    result: string | undefined;
+  };
+  validate: {
+    args: string;
+    result: ValidateResult;
+  };
+  hint: {
+    args: string;
+    result: HintResult | undefined;
+  };
 };
 
 export type ArgsOf<K extends keyof WorkerFunctions> = WorkerFunctions[K] extends { args: infer A }
   ? A
   : never;
+
 export type ResultOf<K extends keyof WorkerFunctions> = WorkerFunctions[K] extends {
   result: infer R;
 }
@@ -20,7 +38,7 @@ export type WorkerCallMessage = {
   [K in keyof WorkerFunctions]: {
     type: 'call';
     id: number;
-    fn: K;
+    functionName: K;
   } & (WorkerFunctions[K] extends { args: infer A } ? { args: A } : object);
 }[keyof WorkerFunctions];
 
@@ -30,7 +48,7 @@ export type WorkerOkResponse = {
   [K in keyof WorkerFunctions]: {
     type: 'ok';
     id: number;
-    fn: K;
+    functionName: K;
     durationMs: number;
   } & (WorkerFunctions[K] extends { result: infer R } ? { result: R } : object);
 }[keyof WorkerFunctions];

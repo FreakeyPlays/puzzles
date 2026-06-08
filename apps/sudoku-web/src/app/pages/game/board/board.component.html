@@ -1,0 +1,47 @@
+<div class="mx-auto aspect-square w-full max-w-sm">
+  <div
+    #gridRef
+    role="grid"
+    aria-label="Sudoku puzzle"
+    aria-rowcount="9"
+    aria-colcount="9"
+    class="h-full w-full flex flex-col overflow-hidden rounded-lg border-[3px] border-gray-700"
+  >
+    @for (row of rows(); track $index) {
+      <div role="row" class="flex flex-1 min-h-0" [attr.aria-rowindex]="$index + 1">
+        @for (cell of row; track cell.i) {
+          <button
+            type="button"
+            role="gridcell"
+            [attr.data-cell]="cell.i"
+            [attr.aria-colindex]="cell.col + 1"
+            [attr.aria-selected]="cell.isSelected || null"
+            [attr.aria-label]="cellLabel(cell)"
+            [attr.aria-readonly]="cell.isGiven || null"
+            [tabindex]="getCellTabindex(cell.i)"
+            class="flex-1 flex items-center justify-center text-base font-semibold transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset sm:text-lg"
+            [class.bg-white]="!cell.isSelected && !cell.isPeer"
+            [class.bg-blue-300]="cell.isSelected"
+            [class.bg-blue-50]="cell.isPeer && !cell.isSelected"
+            [class.text-gray-500]="cell.isGiven && !cell.isSelected"
+            [class.text-blue-700]="!cell.isGiven && !!cell.value && !cell.isSelected"
+            [class.text-white]="cell.isSelected && (cell.isGiven || !!cell.value)"
+            [class.border-r]="cell.col !== 8 && cell.col % 3 !== 2"
+            [class.border-r-gray-300]="cell.col !== 8 && cell.col % 3 !== 2"
+            [class.border-r-2]="cell.col !== 8 && cell.col % 3 === 2"
+            [class.border-r-gray-700]="cell.col !== 8 && cell.col % 3 === 2"
+            [class.border-b]="cell.row !== 8 && cell.row % 3 !== 2"
+            [class.border-b-gray-300]="cell.row !== 8 && cell.row % 3 !== 2"
+            [class.border-b-2]="cell.row !== 8 && cell.row % 3 === 2"
+            [class.border-b-gray-700]="cell.row !== 8 && cell.row % 3 === 2"
+            (click)="onCellClick(cell.i)"
+            (keydown)="onCellKeydown($event, cell.i)"
+            (focus)="onCellFocus(cell.i)"
+          >
+            {{ cell.value }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

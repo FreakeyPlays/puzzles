@@ -1,19 +1,10 @@
-<h1>{{ title() }}</h1>
-<input max="22" min="1" type="number" placeholder="Input a number" #inp />
-
-<button type="button" (click)="calculate(inp.value)" [disabled]="jsCalculating()">Calculate</button>
-
-@if (jsResult()) {
-  <div>Result in JS: {{ jsResult() }}, calculated in {{ jsTime() }}</div>
-}
-
-@if (factorialResult.isLoading()) {
-  <div>Rust (worker): calculating…</div>
-} @else if (factorialResult.hasValue()) {
-  <div>
-    Result in Rust (worker): {{ factorialResult.value()!.value }}, calculated in
-    {{ (factorialResult.value()!.durationMs / 1000).toFixed(4) }}s
-  </div>
-} @else if (factorialResult.error()) {
-  <div>Rust error: {{ factorialResult.error() }}</div>
-}
+<a
+  href="#main-content"
+  class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-none"
+>
+  Skip to main content
+</a>
+<main id="main-content" tabindex="-1" class="flex-1 overflow-auto outline-none">
+  <router-outlet />
+</main>
+<app-bottom-nav />

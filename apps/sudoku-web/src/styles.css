@@ -17,3 +17,7 @@ a {
 body {
   overscroll-behavior-y: contain;
 }
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}

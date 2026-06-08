@@ -1,45 +1,42 @@
-import { Component, inject, resource, signal } from '@angular/core';
-import { SudokuService } from './sudoku/sudoku.service';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
+import { AppService } from './core/services/app.service';
+import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [RouterOutlet, BottomNavComponent],
   templateUrl: './app.component.html',
-  styles: ``,
+  styles: `
+    :host {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+  `,
 })
 export class AppComponent {
-  private readonly sudoku = inject(SudokuService);
+  constructor() {
+    const router = inject(Router);
+    const document = inject(DOCUMENT);
+    const app = inject(AppService);
 
-  protected readonly title = signal('sudoku-web');
-
-  private readonly factorialInput = signal<number | undefined>(undefined);
-  protected readonly factorialResult = resource({
-    params: () => this.factorialInput(),
-    loader: ({ params }) => this.sudoku.factorial(params),
-  });
-
-  jsResult = signal<string>('');
-  jsTime = signal<string>('');
-  jsCalculating = signal(false);
-
-  calculate(inp: number | string) {
-    const n = typeof inp === 'number' ? inp : parseInt(inp, 10);
-    this.factorialInput.set(n);
-
-    this.jsCalculating.set(true);
-    setTimeout(() => {
-      const start = performance.now();
-      let f = 0;
-      for (let i = 0; i < 10_000_000; i++) {
-        f = factorial(n);
-      }
-      this.jsResult.set(f.toString());
-      this.jsTime.set(((performance.now() - start) / 1000).toFixed(4) + 's');
-      this.jsCalculating.set(false);
-    }, 50);
+    router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe((e) => {
+        if (
+          !(e as NavigationEnd).urlAfterRedirects.startsWith('/game') &&
+          app.phase() === 'playing'
+        ) {
+          app.pauseGame();
+        }
+        document.getElementById('main-content')?.focus({ preventScroll: true });
+      });
   }
-}
-
-function factorial(x: number): number {
-  return x === 0 ? 1 : x * factorial(x - 1);
 }

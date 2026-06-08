@@ -1,5 +1,6 @@
 import { Service } from '@angular/core';
-import type { ArgsOf, ResultOf, WorkerFunctions, WorkerResponse } from './worker-protocol';
+import type { ArgsOf, ResultOf, WorkerFunctions, WorkerResponse } from '../workers/worker-protocol';
+import type { Difficulty } from '@repo/sudoku-wasm';
 
 export type CallResult<K extends keyof WorkerFunctions> = {
   value: ResultOf<K>;
@@ -8,7 +9,7 @@ export type CallResult<K extends keyof WorkerFunctions> = {
 
 @Service()
 export class SudokuService {
-  private readonly worker = new Worker(new URL('./sudoku.worker', import.meta.url), {
+  private readonly worker = new Worker(new URL('../workers/sudoku.worker', import.meta.url), {
     type: 'module',
   });
   private nextId = 0;
@@ -25,22 +26,31 @@ export class SudokuService {
 
     this.worker.addEventListener('message', (event: MessageEvent<WorkerResponse>) => {
       const msg = event.data;
-      const pending = this.pending.get(msg.id);
-      if (!pending) return;
+      const entry = this.pending.get(msg.id);
+      if (!entry) return;
       this.pending.delete(msg.id);
-      switch (msg.type) {
-        case 'ok':
-          pending.resolve({ value: msg.result, durationMs: msg.durationMs });
-          break;
-        case 'error':
-          pending.reject(new Error(msg.error));
-          break;
+      if (msg.type === 'ok') {
+        entry.resolve({ value: msg.result, durationMs: msg.durationMs });
+      } else {
+        entry.reject(new Error(msg.error));
       }
     });
   }
 
-  factorial(args: ArgsOf<'get_factorial'>): Promise<CallResult<'get_factorial'>> {
-    return this.call('get_factorial', args);
+  generate(args: { difficulty?: Difficulty; seed?: number }): Promise<CallResult<'generate'>> {
+    return this.call('generate', args);
+  }
+
+  solve(board: string): Promise<CallResult<'solve'>> {
+    return this.call('solve', board);
+  }
+
+  validate(board: string): Promise<CallResult<'validate'>> {
+    return this.call('validate', board);
+  }
+
+  hint(board: string): Promise<CallResult<'hint'>> {
+    return this.call('hint', board);
   }
 
   private call<K extends keyof WorkerFunctions>(fn: K, args: ArgsOf<K>): Promise<CallResult<K>> {
