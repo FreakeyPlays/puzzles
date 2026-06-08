@@ -38,7 +38,7 @@ export class GameService {
     this.solution = value.solution;
     this._puzzle.set(value.puzzle);
     this._edits.set('0'.repeat(81));
-    this._difficulty.set(value.difficulty);
+    this._difficulty.set(value.difficulty as Difficulty);
     this._seed.set(value.seed);
     this._status.set('in_progress');
     this._elapsedSeconds.set(0);
