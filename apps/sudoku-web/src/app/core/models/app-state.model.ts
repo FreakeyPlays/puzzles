@@ -1,7 +1,7 @@
 import type { Difficulty } from './difficulty.model';
 
-export type AppPhase = 'idle' | 'initializing' | 'loading' | 'playing' | 'paused';
 export type ActivePhase = 'playing' | 'paused';
+export type AppPhase = 'idle' | 'initializing' | 'loading' | ActivePhase;
 export function isActivePhase(phase: AppPhase): phase is ActivePhase {
   return phase === 'playing' || phase === 'paused';
 }
