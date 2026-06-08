@@ -1,7 +1,5 @@
 import type { Difficulty, GenerateResult, HintResult, ValidateResult } from '@repo/sudoku-wasm';
 
-export type { Difficulty, GenerateResult, HintResult, ValidateResult };
-
 export type WorkerFunctions = {
   generate: {
     args: { difficulty?: Difficulty; seed?: number };
