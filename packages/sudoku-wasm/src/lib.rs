@@ -2,11 +2,11 @@ use serde::Serialize;
 use sudoku_core::{
     generate as core_generate, hint as core_hint, solve as core_solve, validate as core_validate,
 };
-use ts_rs::TS;
+use tsify_next::Tsify;
 use wasm_bindgen::prelude::*;
 
-#[derive(Serialize, TS)]
-#[ts(export)]
+#[derive(Serialize, Tsify)]
+#[tsify(into_wasm_abi)]
 pub struct GenerateResult {
     pub puzzle: String,
     pub solution: String,
@@ -14,16 +14,16 @@ pub struct GenerateResult {
     pub seed: u32,
 }
 
-#[derive(Serialize, TS)]
-#[ts(export)]
+#[derive(Serialize, Tsify)]
+#[tsify(into_wasm_abi)]
 pub struct ValidateResult {
     pub valid: bool,
     pub solved: bool,
     pub conflicts: Vec<u8>,
 }
 
-#[derive(Serialize, TS)]
-#[ts(export)]
+#[derive(Serialize, Tsify)]
+#[tsify(into_wasm_abi)]
 pub struct HintResult {
     pub index: u8,
     pub value: u8,
@@ -31,7 +31,7 @@ pub struct HintResult {
 }
 
 #[wasm_bindgen]
-pub fn generate(difficulty: Option<String>, seed: Option<u32>) -> Result<JsValue, JsError> {
+pub fn generate(difficulty: Option<String>, seed: Option<u32>) -> Result<GenerateResult, JsError> {
     let difficulty_str = difficulty.as_deref().unwrap_or("medium");
     if !["easy", "medium", "hard", "extreme"].contains(&difficulty_str) {
         return Err(JsError::new(&format!(
@@ -39,13 +39,12 @@ pub fn generate(difficulty: Option<String>, seed: Option<u32>) -> Result<JsValue
         )));
     }
     let result = core_generate(difficulty_str, seed);
-    let out = GenerateResult {
+    Ok(GenerateResult {
         puzzle: result.puzzle,
         solution: result.solution,
         difficulty: result.difficulty,
         seed: result.seed,
-    };
-    Ok(serde_wasm_bindgen::to_value(&out)?)
+    })
 }
 
 #[wasm_bindgen]
@@ -57,31 +56,27 @@ pub fn solve(board: &str) -> Result<Option<String>, JsError> {
 }
 
 #[wasm_bindgen]
-pub fn validate(board: &str) -> Result<JsValue, JsError> {
+pub fn validate(board: &str) -> Result<ValidateResult, JsError> {
     if board.len() != 81 {
         return Err(JsError::new("Board must be exactly 81 characters"));
     }
     let result = core_validate(board);
-    let out = ValidateResult {
+    Ok(ValidateResult {
         valid: result.valid,
         solved: result.solved,
         conflicts: result.conflicts,
-    };
-    Ok(serde_wasm_bindgen::to_value(&out)?)
+    })
 }
 
 #[wasm_bindgen]
-pub fn hint(board: &str) -> Result<Option<JsValue>, JsError> {
+pub fn hint(board: &str) -> Result<Option<HintResult>, JsError> {
     if board.len() != 81 {
         return Err(JsError::new("Board must be exactly 81 characters"));
     }
-    Ok(core_hint(board).map(|h| {
-        let out = HintResult {
-            index: h.index,
-            value: h.value,
-            technique: h.technique,
-        };
-        serde_wasm_bindgen::to_value(&out).unwrap()
+    Ok(core_hint(board).map(|h| HintResult {
+        index: h.index,
+        value: h.value,
+        technique: h.technique,
     }))
 }
 
