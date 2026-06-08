@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, ElementRef, computed, input, output, viewChild } from '@angular/core';
 
 type Cell = {
   i: number;
@@ -22,8 +22,12 @@ export class BoardComponent {
   readonly selectedIndex = input<number | null>(null);
 
   readonly cellSelect = output<number>();
+  readonly deselect = output<void>();
+  readonly digitInput = output<number>();
 
-  protected readonly boxes = computed<Cell[][]>(() => {
+  private readonly gridRef = viewChild.required<ElementRef<HTMLElement>>('gridRef');
+
+  protected readonly rows = computed<Cell[][]>(() => {
     const puzzle = this.puzzle();
     const edits = this.edits();
     const selected = this.selectedIndex();
@@ -47,10 +51,87 @@ export class BoardComponent {
       return { i, row, col, box, isGiven, value, isSelected, isPeer };
     });
 
-    return Array.from({ length: 9 }, (_, boxIndex) => cells.filter((c) => c.box === boxIndex));
+    return Array.from({ length: 9 }, (_, rowIndex) => cells.filter((c) => c.row === rowIndex));
   });
+
+  protected getCellTabindex(index: number): number {
+    const selected = this.selectedIndex();
+    return (selected === null ? 0 : selected) === index ? 0 : -1;
+  }
+
+  protected cellLabel(cell: Cell): string {
+    const pos = `Row ${cell.row + 1}, Column ${cell.col + 1}`;
+    if (!cell.value) return `${pos}, empty`;
+    if (cell.isGiven) return `${pos}, ${cell.value}, given`;
+    return `${pos}, ${cell.value}, your entry`;
+  }
 
   onCellClick(index: number): void {
     this.cellSelect.emit(index);
+  }
+
+  onCellFocus(index: number): void {
+    if (this.selectedIndex() !== index) {
+      this.cellSelect.emit(index);
+    }
+  }
+
+  onCellKeydown(event: KeyboardEvent, index: number): void {
+    const row = Math.floor(index / 9);
+    const col = index % 9;
+
+    switch (event.key) {
+      case 'ArrowUp':
+        event.preventDefault();
+        if (row > 0) this.moveFocusTo(index - 9);
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        if (row < 8) this.moveFocusTo(index + 9);
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        if (col > 0) this.moveFocusTo(index - 1);
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        if (col < 8) this.moveFocusTo(index + 1);
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.moveFocusTo(event.ctrlKey ? 0 : row * 9);
+        break;
+      case 'End':
+        event.preventDefault();
+        this.moveFocusTo(event.ctrlKey ? 80 : row * 9 + 8);
+        break;
+      case 'Escape':
+        event.preventDefault();
+        this.deselect.emit();
+        break;
+      case '1': case '2': case '3': case '4': case '5':
+      case '6': case '7': case '8': case '9': {
+        if (this.selectedIndex() !== index) this.cellSelect.emit(index);
+        this.digitInput.emit(parseInt(event.key, 10));
+        break;
+      }
+      case 'Backspace':
+      case 'Delete':
+        if (this.selectedIndex() !== index) this.cellSelect.emit(index);
+        this.digitInput.emit(0);
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.cellSelect.emit(index);
+        break;
+    }
+  }
+
+  private moveFocusTo(index: number): void {
+    this.cellSelect.emit(index);
+    this.gridRef()
+      .nativeElement.querySelector<HTMLElement>(`[data-cell="${index}"]`)
+      ?.focus();
   }
 }
