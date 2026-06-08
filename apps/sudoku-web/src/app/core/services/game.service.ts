@@ -58,6 +58,7 @@ export class GameService {
   }
 
   startTimer(): void {
+    if (this.timerInterval !== null) return;
     this.timerInterval = setInterval(() => {
       this._elapsedSeconds.update((s) => s + 1);
     }, 1000);
