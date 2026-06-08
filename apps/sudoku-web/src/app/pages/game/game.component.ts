@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '../../core/services/app.service';
 import { GameService } from '../../core/services/game.service';
-import { AutoShowDialogDirective } from '../../shared/auto-show-dialog.directive';
+import { AutoShowDialogDirective } from '../../shared/directives/auto-show-dialog.directive';
 import { BoardComponent } from './board/board.component';
 import { InputPadComponent } from './input-pad/input-pad.component';
 

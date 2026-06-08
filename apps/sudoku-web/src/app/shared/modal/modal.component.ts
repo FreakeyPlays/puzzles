@@ -1,6 +1,6 @@
 import { Component, ElementRef, input, linkedSignal, output, viewChild } from '@angular/core';
 import type { Difficulty } from '@repo/sudoku-wasm';
-import { AutoShowDialogDirective } from '../auto-show-dialog.directive';
+import { AutoShowDialogDirective } from '../directives/auto-show-dialog.directive';
 
 @Component({
   selector: 'app-modal',
