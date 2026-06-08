@@ -1,6 +1,6 @@
 import { Service } from '@angular/core';
 import type { ArgsOf, ResultOf, WorkerFunctions, WorkerResponse } from '../workers/worker-protocol';
-import type { Difficulty } from '../models/difficulty.model';
+import type { Difficulty } from '@repo/sudoku-wasm';
 
 export type CallResult<K extends keyof WorkerFunctions> = {
   value: ResultOf<K>;

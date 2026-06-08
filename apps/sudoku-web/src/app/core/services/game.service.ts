@@ -1,7 +1,7 @@
 import { Service, computed, inject, signal } from '@angular/core';
 import type { GameState, GameStatus } from '../models/app-state.model';
 import { DEFAULT_DIFFICULTY } from '../models/difficulty.model';
-import type { Difficulty } from '../models/difficulty.model';
+import type { Difficulty } from '@repo/sudoku-wasm';
 import { StorageService } from './storage.service';
 import { SudokuService } from './sudoku.service';
 

@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import type { Difficulty } from '../../core/models/difficulty.model';
+import type { Difficulty } from '@repo/sudoku-wasm';
 import { AppService } from '../../core/services/app.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 

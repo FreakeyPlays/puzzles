@@ -1,4 +1,4 @@
-import type { Difficulty } from './difficulty.model';
+import type { Difficulty } from '@repo/sudoku-wasm';
 
 export type ActivePhase = 'playing' | 'paused';
 export type AppPhase = 'idle' | 'initializing' | 'loading' | ActivePhase;

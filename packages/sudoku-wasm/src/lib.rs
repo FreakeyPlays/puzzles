@@ -1,13 +1,15 @@
 use serde::{Deserialize, Serialize};
+use strum::Display;
 use sudoku_core::{
     generate as core_generate, hint as core_hint, solve as core_solve, validate as core_validate,
 };
 use tsify_next::Tsify;
 use wasm_bindgen::prelude::*;
 
-#[derive(Serialize, Deserialize, Tsify, Clone, Copy)]
+#[derive(Serialize, Deserialize, Tsify, Display, Clone, Copy)]
 #[tsify(into_wasm_abi, from_wasm_abi)]
 #[serde(rename_all = "lowercase")]
+#[strum(serialize_all = "lowercase")]
 pub enum Difficulty {
     Easy,
     Medium,
@@ -43,13 +45,7 @@ pub struct HintResult {
 #[wasm_bindgen]
 pub fn generate(difficulty: Option<Difficulty>, seed: Option<u32>) -> Result<GenerateResult, JsError> {
     let d = difficulty.unwrap_or(Difficulty::Medium);
-    let difficulty_str = match d {
-        Difficulty::Easy => "easy",
-        Difficulty::Medium => "medium",
-        Difficulty::Hard => "hard",
-        Difficulty::Extreme => "extreme",
-    };
-    let result = core_generate(difficulty_str, seed);
+    let result = core_generate(&d.to_string(), seed);
     Ok(GenerateResult {
         puzzle: result.puzzle,
         solution: result.solution,

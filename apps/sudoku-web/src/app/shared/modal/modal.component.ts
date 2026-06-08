@@ -1,5 +1,5 @@
 import { Component, input, linkedSignal, output } from '@angular/core';
-import type { Difficulty } from '../../core/models/difficulty.model';
+import type { Difficulty } from '@repo/sudoku-wasm';
 
 @Component({
   selector: 'app-modal',
