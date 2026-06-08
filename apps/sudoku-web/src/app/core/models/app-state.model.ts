@@ -8,7 +8,7 @@ export type AppState = {
   lastDifficulty: Difficulty;
 };
 
-export type PuzzleState = {
+export type GameState = {
   puzzle: string;
   edits: string;
   difficulty: Difficulty;

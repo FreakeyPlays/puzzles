@@ -1,5 +1,5 @@
 import { Service } from '@angular/core';
-import type { AppState, PuzzleState } from '../models/app-state.model';
+import type { AppState, GameState } from '../models/app-state.model';
 
 @Service()
 export class StorageService {
@@ -23,16 +23,16 @@ export class StorageService {
     }
   }
 
-  readPuzzle(): PuzzleState | null {
+  readPuzzle(): GameState | null {
     try {
       const raw = localStorage.getItem(StorageService.PUZZLE_KEY);
-      return raw ? (JSON.parse(raw) as PuzzleState) : null;
+      return raw ? (JSON.parse(raw) as GameState) : null;
     } catch {
       return null;
     }
   }
 
-  writePuzzle(state: PuzzleState): void {
+  writePuzzle(state: GameState): void {
     try {
       localStorage.setItem(StorageService.PUZZLE_KEY, JSON.stringify(state));
     } catch {

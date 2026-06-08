@@ -1,5 +1,5 @@
 import { Service, computed, inject, signal } from '@angular/core';
-import type { PuzzleState, PuzzleStatus } from '../models/app-state.model';
+import type { GameState, PuzzleStatus } from '../models/app-state.model';
 import { DEFAULT_DIFFICULTY } from '../models/difficulty.model';
 import type { Difficulty } from '../models/difficulty.model';
 import { StorageService } from './storage.service';
@@ -44,7 +44,7 @@ export class GameService {
     this._elapsedSeconds.set(0);
   }
 
-  loadPuzzle(state: PuzzleState): void {
+  loadPuzzle(state: GameState): void {
     this._puzzle.set(state.puzzle);
     this._edits.set(state.edits);
     this._difficulty.set(state.difficulty);
@@ -109,7 +109,7 @@ export class GameService {
     }
   }
 
-  private snapshot(): PuzzleState {
+  private snapshot(): GameState {
     return {
       puzzle: this._puzzle(),
       edits: this._edits(),
