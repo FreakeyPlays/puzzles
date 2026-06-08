@@ -121,10 +121,14 @@ export class AppService {
       this._isRestoring.set(true);
 
       const { value: solution } = await this.sudoku.solve(puzzleState.puzzle);
-      if (solution) {
-        this.game.setSolution(solution);
+      if (!solution) {
+        this._isRestoring.set(false);
+        this._phase.set('idle');
+        this.storage.clearPuzzle();
+        return;
       }
 
+      this.game.setSolution(solution);
       this._isRestoring.set(false);
     } else {
       this._phase.set('idle');
