@@ -1,4 +1,4 @@
 [env]
 # ts-rs writes generated TypeScript bindings here (relative to this crate's root).
 # Colocating with wasm-pack output means pkg/ is the single source of all type info.
-TS_RS_EXPORT_DIR = "pkg"
+TS_RS_EXPORT_DIR = "bindings"

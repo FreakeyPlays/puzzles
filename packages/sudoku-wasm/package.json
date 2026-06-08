@@ -5,14 +5,15 @@
   "license": "MIT",
   "type": "module",
   "main": "./pkg/index.js",
-  "types": "./pkg/index.d.ts",
+  "types": "./index.d.ts",
   "sideEffects": [
     "./pkg/snippets/*"
   ],
   "files": [
     "./pkg/index_bg.wasm",
     "./pkg/index.js",
-    "./pkg/index.d.ts"
+    "./index.d.ts",
+    "./bindings"
   ],
   "scripts": {
     "build": "wasm-pack build --target web --out-dir pkg --out-name index --release",
