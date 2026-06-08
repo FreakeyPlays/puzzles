@@ -37,7 +37,9 @@
             (click)="onCellClick(cell.i)"
             (keydown)="onCellKeydown($event, cell.i)"
             (focus)="onCellFocus(cell.i)"
-          >{{ cell.value }}</button>
+          >
+            {{ cell.value }}
+          </button>
         }
       </div>
     }

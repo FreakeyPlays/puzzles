@@ -24,14 +24,19 @@ export class AppComponent {
     const document = inject(DOCUMENT);
     const app = inject(AppService);
 
-    router.events.pipe(
-      filter(e => e instanceof NavigationEnd),
-      takeUntilDestroyed(),
-    ).subscribe((e) => {
-      if (!(e as NavigationEnd).urlAfterRedirects.startsWith('/game') && app.phase() === 'playing') {
-        app.pauseGame();
-      }
-      document.getElementById('main-content')?.focus({ preventScroll: true });
-    });
+    router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe((e) => {
+        if (
+          !(e as NavigationEnd).urlAfterRedirects.startsWith('/game') &&
+          app.phase() === 'playing'
+        ) {
+          app.pauseGame();
+        }
+        document.getElementById('main-content')?.focus({ preventScroll: true });
+      });
   }
 }
