@@ -42,6 +42,16 @@ export class AppService {
       });
     });
 
+    // Persist app state reactively whenever the phase or difficulty changes.
+    effect(() => {
+      const phase = this._phase();
+      const lastDifficulty = this._lastDifficulty();
+      if (phase === 'loading' || phase === 'initializing') return;
+      untracked(() => {
+        this.storage.writeAppState({ phase, lastDifficulty });
+      });
+    });
+
     // Pause/resume when the page visibility changes.
     effect(() => {
       const visible = this.visibility.isVisible();
@@ -63,17 +73,14 @@ export class AppService {
     this._lastDifficulty.set(difficulty);
     await this.game.beginNewPuzzle(difficulty);
     this._phase.set('playing');
-    this.persistAppState();
   }
 
   continueGame(): void {
     this._phase.set('playing');
-    this.persistAppState();
   }
 
   pauseGame(): void {
     this._phase.set('paused');
-    this.persistAppState();
   }
 
   async newGame(difficulty: Difficulty): Promise<void> {
@@ -84,13 +91,11 @@ export class AppService {
     this._lastDifficulty.set(difficulty);
     await this.game.beginNewPuzzle(difficulty);
     this._phase.set('playing');
-    this.persistAppState();
   }
 
   endGame(): void {
     this._phase.set('idle');
     this.storage.clearPuzzle();
-    this.persistAppState();
   }
 
   private async boot(): Promise<void> {
@@ -126,9 +131,4 @@ export class AppService {
     }
   }
 
-  private persistAppState(): void {
-    const phase = this._phase();
-    if (phase === 'loading' || phase === 'initializing') return;
-    this.storage.writeAppState({ phase, lastDifficulty: this._lastDifficulty() });
-  }
 }
