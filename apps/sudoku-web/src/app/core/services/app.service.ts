@@ -62,9 +62,7 @@ export class AppService {
   }
 
   async newGame(difficulty: Difficulty): Promise<void> {
-    if (this.game.status() === 'solved') {
-      this.game.pauseTimer();
-    } else {
+    if (this.game.status() !== 'solved') {
       this.game.markAbandoned();
     }
     this._phase.set('loading');
