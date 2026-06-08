@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import type { Difficulty } from '@repo/sudoku-wasm';
 import { AppService } from '../../core/services/app.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { isActiveAppStatus } from '../../core/models/app-state.model';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ export class HomeComponent {
   protected readonly showModal = signal(false);
   protected readonly hasActiveGame = computed(() => {
     const phase = this.app.phase();
-    return phase === 'playing' || phase === 'paused';
+    return isActiveAppStatus(phase);
   });
 
   openModal(): void {

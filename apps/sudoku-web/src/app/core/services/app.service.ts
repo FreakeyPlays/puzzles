@@ -1,5 +1,5 @@
 import { Service, effect, inject, signal, untracked } from '@angular/core';
-import type { AppPhase } from '../models/app-state.model';
+import type { AppStatus } from '../models/app-state.model';
 import { DEFAULT_DIFFICULTY } from '../models/difficulty.model';
 import type { Difficulty } from '@repo/sudoku-wasm';
 import { GameService } from './game.service';
@@ -14,7 +14,7 @@ export class AppService {
   private readonly storage = inject(StorageService);
   private readonly visibility = inject(VisibilityService);
 
-  private readonly _phase = signal<AppPhase>('initializing');
+  private readonly _phase = signal<AppStatus>('initializing');
   private readonly _lastDifficulty = signal<Difficulty>(DEFAULT_DIFFICULTY);
   private readonly _isRestoring = signal<boolean>(false);
 
@@ -28,14 +28,13 @@ export class AppService {
     // Start/stop the timer reactively based on the current phase.
     effect(() => {
       const phase = this._phase();
-      const restoring = this._isRestoring();
+      const isNotRestoring = !this._isRestoring();
       untracked(() => {
-        if (phase === 'playing' && !restoring) {
+        if (phase === 'playing' && isNotRestoring) {
           this.game.startTimer();
         } else {
           this.game.stopTimer();
-          // Persist elapsed time whenever the timer stops (skip non-stable transitions).
-          if (phase !== 'loading' && phase !== 'initializing' && !restoring) {
+          if (phase !== 'loading' && phase !== 'initializing' && isNotRestoring) {
             this.game.persistGame();
           }
         }
@@ -54,14 +53,15 @@ export class AppService {
 
     // Pause/resume when the page visibility changes.
     effect(() => {
-      const visible = this.visibility.isVisible();
-      const restoring = this._isRestoring();
+      const isVisible = this.visibility.isVisible();
+      const isHidden = !isVisible;
+      const restoring = this._isRestoring(); // TODO: Check if we can move into the untacked function
       if (restoring) return;
       untracked(() => {
         const phase = this._phase();
-        if (!visible && phase === 'playing') {
+        if (isHidden && phase === 'playing') {
           this.pauseGame();
-        } else if (visible && phase === 'paused') {
+        } else if (isVisible && phase === 'paused') {
           this.continueGame();
         }
       });

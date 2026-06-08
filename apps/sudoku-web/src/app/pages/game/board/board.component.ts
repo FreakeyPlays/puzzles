@@ -109,8 +109,15 @@ export class BoardComponent {
         event.preventDefault();
         this.deselect.emit();
         break;
-      case '1': case '2': case '3': case '4': case '5':
-      case '6': case '7': case '8': case '9': {
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9': {
         if (this.selectedIndex() !== index) this.cellSelect.emit(index);
         this.digitInput.emit(parseInt(event.key, 10));
         break;
@@ -130,8 +137,6 @@ export class BoardComponent {
 
   private moveFocusTo(index: number): void {
     this.cellSelect.emit(index);
-    this.gridRef()
-      .nativeElement.querySelector<HTMLElement>(`[data-cell="${index}"]`)
-      ?.focus();
+    this.gridRef().nativeElement.querySelector<HTMLElement>(`[data-cell="${index}"]`)?.focus();
   }
 }

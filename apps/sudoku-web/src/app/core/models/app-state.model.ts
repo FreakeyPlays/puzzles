@@ -1,14 +1,14 @@
 import type { Difficulty } from '@repo/sudoku-wasm';
 
-export type ActivePhase = 'playing' | 'paused';
-export type AppPhase = 'idle' | 'initializing' | 'loading' | ActivePhase;
-export function isActivePhase(phase: AppPhase): phase is ActivePhase {
+export type ActiveAppStatus = 'playing' | 'paused';
+export type AppStatus = 'idle' | 'initializing' | 'loading' | ActiveAppStatus;
+export function isActiveAppStatus(phase: AppStatus): phase is ActiveAppStatus {
   return phase === 'playing' || phase === 'paused';
 }
-export type GameStatus = 'in_progress' | 'solved' | 'abandoned';
+export type GameStatus = 'active' | 'solved' | 'abandoned';
 
 export type AppState = {
-  phase: AppPhase;
+  phase: AppStatus;
   lastDifficulty: Difficulty;
 };
 

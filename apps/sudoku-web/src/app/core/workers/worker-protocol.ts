@@ -7,7 +7,7 @@ export type WorkerFunctions = {
   };
   solve: {
     args: string;
-    result: string | null;
+    result: string | undefined;
   };
   validate: {
     args: string;
@@ -38,7 +38,7 @@ export type WorkerCallMessage = {
   [K in keyof WorkerFunctions]: {
     type: 'call';
     id: number;
-    fn: K;
+    functionName: K;
   } & (WorkerFunctions[K] extends { args: infer A } ? { args: A } : object);
 }[keyof WorkerFunctions];
 
@@ -48,7 +48,7 @@ export type WorkerOkResponse = {
   [K in keyof WorkerFunctions]: {
     type: 'ok';
     id: number;
-    fn: K;
+    functionName: K;
     durationMs: number;
   } & (WorkerFunctions[K] extends { result: infer R } ? { result: R } : object);
 }[keyof WorkerFunctions];

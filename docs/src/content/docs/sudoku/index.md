@@ -31,11 +31,11 @@ See [WASM API](./core/wasm-api) for the full function signatures that operate on
 
 Each puzzle moves through three statuses:
 
-| Status        | Meaning                                      |
-| ------------- | -------------------------------------------- |
-| `in_progress` | The user is actively playing                 |
-| `solved`      | The board matches the solution               |
-| `abandoned`   | The user started a new game before finishing |
+| Status      | Meaning                                      |
+| ----------- | -------------------------------------------- |
+| `active`    | The user is actively playing                 |
+| `solved`    | The board matches the solution               |
+| `abandoned` | The user started a new game before finishing |
 
 The app state machine (`idle → loading → playing ↔ paused`) wraps this lifecycle. See [App State Machine](./web/app-state) for the full transition diagram.
 

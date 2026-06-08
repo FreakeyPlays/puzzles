@@ -14,7 +14,7 @@ export class GameService {
   private readonly _edits = signal<string>('0'.repeat(81));
   private readonly _difficulty = signal<Difficulty>(DEFAULT_DIFFICULTY);
   private readonly _seed = signal<number>(0);
-  private readonly _status = signal<GameStatus>('in_progress');
+  private readonly _status = signal<GameStatus>('active');
   private readonly _elapsedSeconds = signal<number>(0);
   private solution = '';
   private timerInterval: ReturnType<typeof setInterval> | null = null;
@@ -40,7 +40,7 @@ export class GameService {
     this._edits.set('0'.repeat(81));
     this._difficulty.set(value.difficulty);
     this._seed.set(value.seed);
-    this._status.set('in_progress');
+    this._status.set('active');
     this._elapsedSeconds.set(0);
   }
 

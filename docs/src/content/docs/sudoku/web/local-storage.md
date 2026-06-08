@@ -47,7 +47,7 @@ type PuzzleState = {
   edits: string; // 81 chars — user-placed values, '0' where nothing was placed
   difficulty: Difficulty; // 'easy' | 'medium' | 'hard' | 'extreme'
   seed: number; // u32 — identifies the puzzle for sharing / challenge mode
-  status: "in_progress" | "solved" | "abandoned";
+  status: "active" | "solved" | "abandoned";
   elapsedSeconds: number; // timer — persisted so it survives page reloads
 };
 ```

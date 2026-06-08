@@ -14,10 +14,10 @@ const handlers: HandlerMap = {
 };
 
 function dispatch<K extends keyof WorkerFunctions>(
-  fn: K,
+  functionName: K,
   args: ArgsOf<K>,
 ): ResultOf<K> | Promise<ResultOf<K>> {
-  return (handlers[fn] as (a: ArgsOf<K>) => ResultOf<K> | Promise<ResultOf<K>>)(args);
+  return (handlers[functionName] as (a: ArgsOf<K>) => ResultOf<K> | Promise<ResultOf<K>>)(args);
 }
 
 const {
@@ -44,11 +44,11 @@ addEventListener('message', async (event: MessageEvent<WorkerInboundMessage>) =>
   try {
     await ready;
     const args = 'args' in msg ? msg.args : undefined;
-    const result = await dispatch(msg.fn, args as never);
+    const result = await dispatch(msg.functionName, args as never);
     postMessage({
       type: 'ok',
       id: msg.id,
-      fn: msg.fn,
+      fn: msg.functionName,
       result,
       durationMs: performance.now() - start,
     });
