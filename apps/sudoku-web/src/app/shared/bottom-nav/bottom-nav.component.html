@@ -3,7 +3,7 @@
     routerLink="/"
     routerLinkActive="text-blue-600"
     #homeLink="routerLinkActive"
-    [routerLinkActiveOptions]="{ exact: false }"
+    [routerLinkActiveOptions]="{ exact: true }"
     [attr.aria-current]="homeLink.isActive ? 'page' : null"
     class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600 active:text-blue-600"
   >
