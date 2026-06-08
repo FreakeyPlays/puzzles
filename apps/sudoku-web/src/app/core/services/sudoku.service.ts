@@ -57,7 +57,7 @@ export class SudokuService {
     return new Promise<CallResult<K>>((resolve, reject) => {
       const id = ++this.nextId;
       this.pending.set(id, { resolve: resolve as (value: unknown) => void, reject });
-      this.worker.postMessage({ type: 'call', id, fn, args });
+      this.worker.postMessage({ type: 'call', id, functionName: fn, args });
     });
   }
 }
