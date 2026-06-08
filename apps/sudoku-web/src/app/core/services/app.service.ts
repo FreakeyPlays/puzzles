@@ -83,14 +83,22 @@ export class AppService {
   }
 
   private async boot(): Promise<void> {
+    this._phase.set('initializing');
+
     const appState = this.storage.readAppState();
-    if (!appState) return;
+    if (!appState) {
+      this._phase.set('idle');
+      return;
+    }
 
     this._lastDifficulty.set(appState.lastDifficulty);
 
     if (appState.phase === 'playing' || appState.phase === 'paused') {
       const puzzleState = this.storage.readPuzzle();
-      if (!puzzleState) return;
+      if (!puzzleState) {
+        this._phase.set('idle');
+        return;
+      }
 
       this._phase.set(appState.phase);
       this.game.loadPuzzle(puzzleState);
@@ -102,6 +110,8 @@ export class AppService {
       }
 
       this._isRestoring.set(false);
+    } else {
+      this._phase.set('idle');
     }
   }
 
