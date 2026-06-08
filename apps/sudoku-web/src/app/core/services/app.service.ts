@@ -25,6 +25,24 @@ export class AppService {
   constructor() {
     void this.boot();
 
+    // Start/stop the timer reactively based on the current phase.
+    effect(() => {
+      const phase = this._phase();
+      const restoring = this._isRestoring();
+      untracked(() => {
+        if (phase === 'playing' && !restoring) {
+          this.game.startTimer();
+        } else {
+          this.game.stopTimer();
+          // Persist elapsed time whenever the timer stops (skip non-stable transitions).
+          if (phase !== 'loading' && phase !== 'initializing' && !restoring) {
+            this.game.persistGame();
+          }
+        }
+      });
+    });
+
+    // Pause/resume when the page visibility changes.
     effect(() => {
       const visible = this.visibility.isVisible();
       const restoring = this._isRestoring();
@@ -45,19 +63,16 @@ export class AppService {
     this._lastDifficulty.set(difficulty);
     await this.game.beginNewPuzzle(difficulty);
     this._phase.set('playing');
-    this.game.startTimer();
     this.persistAppState();
   }
 
   continueGame(): void {
     this._phase.set('playing');
-    this.game.startTimer();
     this.persistAppState();
   }
 
   pauseGame(): void {
     this._phase.set('paused');
-    this.game.pauseTimer();
     this.persistAppState();
   }
 
@@ -69,13 +84,11 @@ export class AppService {
     this._lastDifficulty.set(difficulty);
     await this.game.beginNewPuzzle(difficulty);
     this._phase.set('playing');
-    this.game.startTimer();
     this.persistAppState();
   }
 
   endGame(): void {
     this._phase.set('idle');
-    this.game.pauseTimer();
     this.storage.clearPuzzle();
     this.persistAppState();
   }

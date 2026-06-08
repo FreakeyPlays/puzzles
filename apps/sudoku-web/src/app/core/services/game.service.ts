@@ -63,11 +63,14 @@ export class GameService {
     }, 1000);
   }
 
-  pauseTimer(): void {
+  stopTimer(): void {
     if (this.timerInterval !== null) {
       clearInterval(this.timerInterval);
       this.timerInterval = null;
     }
+  }
+
+  persistGame(): void {
     this.storage.writePuzzle(this.snapshot());
   }
 
@@ -102,10 +105,7 @@ export class GameService {
     const board = this.currentBoard();
     if (!board.includes('0') && board === this.solution) {
       this._status.set('solved');
-      if (this.timerInterval !== null) {
-        clearInterval(this.timerInterval);
-        this.timerInterval = null;
-      }
+      this.stopTimer();
     }
   }
 
