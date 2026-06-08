@@ -16,7 +16,7 @@ const PUZZLE_STATE: GameState = {
   edits: '0'.repeat(81),
   difficulty: 'medium',
   seed: 1,
-  status: 'in_progress',
+  status: 'active',
   elapsedSeconds: 60,
 };
 
@@ -29,7 +29,7 @@ describe('AppService', () => {
     beginNewPuzzle: ReturnType<typeof vi.fn>;
     loadPuzzle: ReturnType<typeof vi.fn>;
     setSolution: ReturnType<typeof vi.fn>;
-    status: ReturnType<typeof signal<'in_progress' | 'solved' | 'abandoned'>>;
+    status: ReturnType<typeof signal<'active' | 'solved' | 'abandoned'>>;
   };
   let mockSudoku: { solve: ReturnType<typeof vi.fn> };
   let mockStorage: {
@@ -65,7 +65,7 @@ describe('AppService', () => {
       beginNewPuzzle: vi.fn().mockResolvedValue(undefined),
       loadPuzzle: vi.fn(),
       setSolution: vi.fn(),
-      status: signal('in_progress'),
+      status: signal('active'),
     };
     mockSudoku = {
       solve: vi.fn().mockResolvedValue({ value: null, durationMs: 0 }),
@@ -176,7 +176,7 @@ describe('AppService', () => {
 
   describe('newGame', () => {
     it('marks the current game abandoned when not solved', async () => {
-      mockGame.status.set('in_progress');
+      mockGame.status.set('active');
       const service = setupService();
       await flushMicrotasks();
       await service.startGame('medium');

@@ -7,7 +7,7 @@ const PUZZLE_STATE: GameState = {
   edits: '0'.repeat(81),
   difficulty: 'medium',
   seed: 42,
-  status: 'in_progress',
+  status: 'active',
   elapsedSeconds: 120,
 };
 

@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { signal } from '@angular/core';
 import type { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import type { AppPhase } from '../models/app-state.model';
+import type { AppStatus } from '../models/app-state.model';
 import { AppService } from '../services/app.service';
 import { gameGuard } from './game.guard';
 
-function runGuard(phase: AppPhase) {
+function runGuard(phase: AppStatus) {
   const mockApp = { phase: signal(phase) };
   TestBed.configureTestingModule({
     imports: [RouterTestingModule],

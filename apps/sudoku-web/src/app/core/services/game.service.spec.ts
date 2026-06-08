@@ -11,7 +11,7 @@ const BASE_STATE: GameState = {
   edits: EMPTY_BOARD,
   difficulty: 'medium',
   seed: 1,
-  status: 'in_progress',
+  status: 'active',
   elapsedSeconds: 0,
 };
 
@@ -42,7 +42,7 @@ describe('GameService', () => {
         edits: '2'.repeat(81),
         difficulty: 'hard',
         seed: 99,
-        status: 'in_progress',
+        status: 'active',
         elapsedSeconds: 300,
       };
       service.loadPuzzle(state);
@@ -125,7 +125,7 @@ describe('GameService', () => {
       service.loadPuzzle(BASE_STATE);
       service.setSolution('1'.repeat(81));
       service.placeDigit(0, 1);
-      expect(service.status()).toBe('in_progress');
+      expect(service.status()).toBe('active');
     });
 
     it('does not mark solved when board is complete but wrong', () => {
@@ -133,7 +133,7 @@ describe('GameService', () => {
       service.loadPuzzle({ ...BASE_STATE, puzzle });
       service.setSolution('1'.repeat(81));
       service.placeDigit(0, 9); // wrong digit
-      expect(service.status()).toBe('in_progress');
+      expect(service.status()).toBe('active');
     });
   });
 

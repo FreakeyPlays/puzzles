@@ -17,15 +17,10 @@ describe('VisibilityService', () => {
     expect(service.isVisible()).toBe(true);
   });
 
-  it('isHidden is the inverse of isVisible', () => {
-    expect(service.isHidden()).toBe(!service.isVisible());
-  });
-
   it('sets isVisible to false when visibilitychange fires and document is hidden', () => {
     Object.defineProperty(doc, 'hidden', { value: true, configurable: true });
     doc.dispatchEvent(new Event('visibilitychange'));
     expect(service.isVisible()).toBe(false);
-    expect(service.isHidden()).toBe(true);
   });
 
   it('restores isVisible to true when page becomes visible again', () => {

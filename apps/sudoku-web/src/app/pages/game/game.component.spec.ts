@@ -12,7 +12,7 @@ describe('GameComponent', () => {
     puzzle: ReturnType<typeof signal<string>>;
     edits: ReturnType<typeof signal<string>>;
     difficulty: ReturnType<typeof signal<'medium'>>;
-    status: ReturnType<typeof signal<'in_progress' | 'solved'>>;
+    status: ReturnType<typeof signal<'active' | 'solved'>>;
     elapsedSeconds: ReturnType<typeof signal<number>>;
     placeDigit: ReturnType<typeof vi.fn>;
     eraseDigit: ReturnType<typeof vi.fn>;
@@ -32,7 +32,7 @@ describe('GameComponent', () => {
       puzzle: signal(EMPTY),
       edits: signal(EMPTY),
       difficulty: signal('medium'),
-      status: signal('in_progress'),
+      status: signal('active'),
       elapsedSeconds: signal(0),
       placeDigit: vi.fn(),
       eraseDigit: vi.fn(),

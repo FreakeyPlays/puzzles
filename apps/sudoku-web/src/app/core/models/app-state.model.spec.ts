@@ -1,23 +1,23 @@
-import { isActivePhase } from './app-state.model';
+import { isActiveAppStatus } from './app-state.model';
 
 describe('isActivePhase', () => {
   it('returns true for playing', () => {
-    expect(isActivePhase('playing')).toBe(true);
+    expect(isActiveAppStatus('playing')).toBe(true);
   });
 
   it('returns true for paused', () => {
-    expect(isActivePhase('paused')).toBe(true);
+    expect(isActiveAppStatus('paused')).toBe(true);
   });
 
   it('returns false for idle', () => {
-    expect(isActivePhase('idle')).toBe(false);
+    expect(isActiveAppStatus('idle')).toBe(false);
   });
 
   it('returns false for loading', () => {
-    expect(isActivePhase('loading')).toBe(false);
+    expect(isActiveAppStatus('loading')).toBe(false);
   });
 
   it('returns false for initializing', () => {
-    expect(isActivePhase('initializing')).toBe(false);
+    expect(isActiveAppStatus('initializing')).toBe(false);
   });
 });
