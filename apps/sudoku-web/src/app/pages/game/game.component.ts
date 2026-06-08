@@ -73,6 +73,6 @@ export class GameComponent {
 
   goHome(): void {
     this.app.endGame();
-    void this.router.navigate(['/home']);
+    void this.router.navigate(['/']);
   }
 }

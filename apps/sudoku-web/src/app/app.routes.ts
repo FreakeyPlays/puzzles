@@ -2,9 +2,8 @@ import { Routes } from '@angular/router';
 import { gameGuard } from './core/guards/game.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
-    path: 'home',
+    path: '',
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
@@ -22,5 +21,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/settings/settings.component').then((m) => m.SettingsComponent),
   },
-  { path: '**', redirectTo: '/home' },
+  { path: '**', redirectTo: '/' },
 ];
