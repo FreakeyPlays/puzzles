@@ -2,9 +2,11 @@ use serde::Serialize;
 use sudoku_core::{
     generate as core_generate, hint as core_hint, solve as core_solve, validate as core_validate,
 };
+use ts_rs::TS;
 use wasm_bindgen::prelude::*;
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export)]
 pub struct GenerateResult {
     pub puzzle: String,
     pub solution: String,
@@ -12,14 +14,16 @@ pub struct GenerateResult {
     pub seed: u32,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export)]
 pub struct ValidateResult {
     pub valid: bool,
     pub solved: bool,
     pub conflicts: Vec<u8>,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export)]
 pub struct HintResult {
     pub index: u8,
     pub value: u8,

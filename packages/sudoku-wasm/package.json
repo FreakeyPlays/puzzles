@@ -6,13 +6,21 @@
   "type": "module",
   "main": "./pkg/index.js",
   "types": "./pkg/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./pkg/index.d.ts",
+      "import": "./pkg/index.js"
+    },
+    "./bindings": "./bindings/index.ts"
+  },
   "sideEffects": [
     "./pkg/snippets/*"
   ],
   "files": [
     "./pkg/index_bg.wasm",
     "./pkg/index.js",
-    "./pkg/index.d.ts"
+    "./pkg/index.d.ts",
+    "./bindings"
   ],
   "scripts": {
     "build": "wasm-pack build --target web --out-dir pkg --out-name index --release",

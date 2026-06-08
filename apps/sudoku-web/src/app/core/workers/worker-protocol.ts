@@ -1,25 +1,7 @@
+import type { GenerateResult, HintResult, ValidateResult } from '@repo/sudoku-wasm/bindings';
 import type { Difficulty } from '../models/difficulty.model';
 
-export type { Difficulty };
-
-export type GenerateResult = {
-  puzzle: string;
-  solution: string;
-  difficulty: Difficulty;
-  seed: number;
-};
-
-export type ValidateResult = {
-  valid: boolean;
-  solved: boolean;
-  conflicts: number[];
-};
-
-export type HintResult = {
-  index: number;
-  value: number;
-  technique: string;
-};
+export type { Difficulty, GenerateResult, HintResult, ValidateResult };
 
 export type WorkerFunctions = {
   generate: {
@@ -36,7 +18,7 @@ export type WorkerFunctions = {
   };
   hint: {
     args: string;
-    result: HintResult | null;
+    result: HintResult | undefined;
   };
 };
 

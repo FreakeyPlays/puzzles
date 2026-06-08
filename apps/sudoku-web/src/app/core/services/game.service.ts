@@ -96,7 +96,7 @@ export class GameService {
 
   async requestHint(): Promise<void> {
     const { value } = await this.sudoku.hint(this.currentBoard());
-    if (value !== null) {
+    if (value !== undefined) {
       this.placeDigit(value.index, value.value);
     }
   }
