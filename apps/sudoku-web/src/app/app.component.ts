@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
 
 @Component({
@@ -14,4 +17,16 @@ import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
     }
   `,
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor() {
+    const router = inject(Router);
+    const document = inject(DOCUMENT);
+
+    router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
+      takeUntilDestroyed(),
+    ).subscribe(() => {
+      document.getElementById('main-content')?.focus({ preventScroll: true });
+    });
+  }
+}
