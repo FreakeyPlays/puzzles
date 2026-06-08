@@ -34,7 +34,7 @@ export class AppService {
           this.game.startTimer();
         } else {
           this.game.stopTimer();
-          if (phase !== 'loading' && phase !== 'initializing' && isNotRestoring) {
+          if (phase === 'paused' && isNotRestoring) {
             this.game.persistGame();
           }
         }
