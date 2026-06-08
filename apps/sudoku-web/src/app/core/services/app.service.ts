@@ -1,5 +1,6 @@
 import { Service, effect, inject, signal, untracked } from '@angular/core';
 import type { AppPhase } from '../models/app-state.model';
+import { DEFAULT_DIFFICULTY } from '../models/difficulty.model';
 import type { Difficulty } from '../models/difficulty.model';
 import { GameService } from './game.service';
 import { StorageService } from './storage.service';
@@ -14,7 +15,7 @@ export class AppService {
   private readonly visibility = inject(VisibilityService);
 
   private readonly _phase = signal<AppPhase>('idle');
-  private readonly _lastDifficulty = signal<Difficulty>('medium');
+  private readonly _lastDifficulty = signal<Difficulty>(DEFAULT_DIFFICULTY);
   private readonly _isRestoring = signal<boolean>(false);
 
   readonly phase = this._phase.asReadonly();
