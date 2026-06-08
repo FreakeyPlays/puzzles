@@ -43,7 +43,10 @@ pub struct HintResult {
 }
 
 #[wasm_bindgen]
-pub fn generate(difficulty: Option<Difficulty>, seed: Option<u32>) -> Result<GenerateResult, JsError> {
+pub fn generate(
+    difficulty: Option<Difficulty>,
+    seed: Option<u32>,
+) -> Result<GenerateResult, JsError> {
     let d = difficulty.unwrap_or(Difficulty::Medium);
     let result = core_generate(&d.to_string(), seed);
     Ok(GenerateResult {
