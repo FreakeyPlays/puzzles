@@ -1,5 +1,5 @@
 import { Service, computed, inject, signal } from '@angular/core';
-import type { GameState, PuzzleStatus } from '../models/app-state.model';
+import type { GameState, GameStatus } from '../models/app-state.model';
 import { DEFAULT_DIFFICULTY } from '../models/difficulty.model';
 import type { Difficulty } from '../models/difficulty.model';
 import { StorageService } from './storage.service';
@@ -14,7 +14,7 @@ export class GameService {
   private readonly _edits = signal<string>('0'.repeat(81));
   private readonly _difficulty = signal<Difficulty>(DEFAULT_DIFFICULTY);
   private readonly _seed = signal<number>(0);
-  private readonly _status = signal<PuzzleStatus>('in_progress');
+  private readonly _status = signal<GameStatus>('in_progress');
   private readonly _elapsedSeconds = signal<number>(0);
   private solution = '';
   private timerInterval: ReturnType<typeof setInterval> | null = null;

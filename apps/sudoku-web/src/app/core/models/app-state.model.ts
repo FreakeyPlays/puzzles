@@ -5,7 +5,7 @@ export type AppPhase = 'idle' | 'initializing' | 'loading' | ActivePhase;
 export function isActivePhase(phase: AppPhase): phase is ActivePhase {
   return phase === 'playing' || phase === 'paused';
 }
-export type PuzzleStatus = 'in_progress' | 'solved' | 'abandoned';
+export type GameStatus = 'in_progress' | 'solved' | 'abandoned';
 
 export type AppState = {
   phase: AppPhase;
@@ -17,6 +17,6 @@ export type GameState = {
   edits: string;
   difficulty: Difficulty;
   seed: number;
-  status: PuzzleStatus;
+  status: GameStatus;
   elapsedSeconds: number;
 };
