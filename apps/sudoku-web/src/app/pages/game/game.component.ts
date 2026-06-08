@@ -16,7 +16,6 @@ export class GameComponent {
   private readonly router = inject(Router);
 
   protected readonly selectedIndex = signal<number | null>(null);
-  protected readonly showNewGameConfirm = signal(false);
 
   protected readonly isSolved = computed(() => this.game.status() === 'solved');
 
@@ -50,20 +49,6 @@ export class GameComponent {
 
   async requestHint(): Promise<void> {
     await this.game.requestHint();
-  }
-
-  openNewGameConfirm(): void {
-    this.showNewGameConfirm.set(true);
-  }
-
-  cancelNewGame(): void {
-    this.showNewGameConfirm.set(false);
-  }
-
-  async confirmNewGame(): Promise<void> {
-    this.showNewGameConfirm.set(false);
-    await this.app.newGame(this.game.difficulty());
-    this.selectedIndex.set(null);
   }
 
   async startNewGameFromResult(): Promise<void> {
