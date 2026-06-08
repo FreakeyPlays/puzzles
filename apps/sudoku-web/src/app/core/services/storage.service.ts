@@ -7,40 +7,39 @@ export class StorageService {
   private static readonly PUZZLE_KEY = 'sudoku:puzzle';
 
   readAppState(): AppState | null {
-    try {
-      const raw = localStorage.getItem(StorageService.APP_KEY);
-      return raw ? (JSON.parse(raw) as AppState) : null;
-    } catch {
-      return null;
-    }
+    return this.read<AppState>(StorageService.APP_KEY);
   }
 
   writeAppState(state: AppState): void {
-    try {
-      localStorage.setItem(StorageService.APP_KEY, JSON.stringify(state));
-    } catch {
-      // Quota exceeded or unavailable — silently ignore
-    }
+    this.write(StorageService.APP_KEY, state);
   }
 
   readPuzzle(): GameState | null {
-    try {
-      const raw = localStorage.getItem(StorageService.PUZZLE_KEY);
-      return raw ? (JSON.parse(raw) as GameState) : null;
-    } catch {
-      return null;
-    }
+    return this.read<GameState>(StorageService.PUZZLE_KEY);
   }
 
   writePuzzle(state: GameState): void {
-    try {
-      localStorage.setItem(StorageService.PUZZLE_KEY, JSON.stringify(state));
-    } catch {
-      // Quota exceeded or unavailable — silently ignore
-    }
+    this.write(StorageService.PUZZLE_KEY, state);
   }
 
   clearPuzzle(): void {
     localStorage.removeItem(StorageService.PUZZLE_KEY);
+  }
+
+  private read<T>(key: string): T | null {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? (JSON.parse(raw) as T) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private write<T>(key: string, value: T): void {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // Quota exceeded or storage unavailable — silently ignore
+    }
   }
 }
