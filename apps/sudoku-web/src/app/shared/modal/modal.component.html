@@ -1,47 +1,54 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-xs rounded-2xl bg-white p-6 shadow-xl">
-    <h2 class="mb-4 text-xl font-bold text-gray-900">Select Difficulty</h2>
+<dialog
+  #dialog
+  appAutoShow
+  class="w-full max-w-xs rounded-2xl border-0 bg-white p-6 shadow-xl m-auto backdrop:bg-black/50"
+  aria-labelledby="modal-title"
+  (cancel)="onDialogCancel($event)"
+>
+  <h2 id="modal-title" class="mb-4 text-xl font-bold text-gray-900">Select Difficulty</h2>
 
-    <div class="mb-6 space-y-2">
-      @for (difficulty of difficulties; track difficulty) {
-        <button
-          type="button"
-          class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors"
-          [class.bg-blue-600]="selected() === difficulty"
-          [class.text-white]="selected() === difficulty"
-          [class.bg-gray-100]="selected() !== difficulty"
-          [class.text-gray-900]="selected() !== difficulty"
-          (click)="onSelect(difficulty)"
+  <div class="mb-6 space-y-2" role="radiogroup" aria-label="Difficulty">
+    @for (difficulty of difficulties; track difficulty) {
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="selected() === difficulty"
+        class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors"
+        [class.bg-blue-600]="selected() === difficulty"
+        [class.text-white]="selected() === difficulty"
+        [class.bg-gray-100]="selected() !== difficulty"
+        [class.text-gray-900]="selected() !== difficulty"
+        (click)="onSelect(difficulty)"
+      >
+        <span
+          class="size-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
+          [class.border-white]="selected() === difficulty"
+          [class.border-gray-400]="selected() !== difficulty"
+          aria-hidden="true"
         >
-          <span
-            class="size-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-            [class.border-white]="selected() === difficulty"
-            [class.border-gray-400]="selected() !== difficulty"
-          >
-            @if (selected() === difficulty) {
-              <span class="size-2 rounded-full bg-white"></span>
-            }
-          </span>
-          <span class="capitalize">{{ difficulty }}</span>
-        </button>
-      }
-    </div>
-
-    <div class="flex gap-3">
-      <button
-        type="button"
-        class="flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 active:bg-gray-100"
-        (click)="onCancel()"
-      >
-        Cancel
+          @if (selected() === difficulty) {
+            <span class="size-2 rounded-full bg-white"></span>
+          }
+        </span>
+        <span class="capitalize">{{ difficulty }}</span>
       </button>
-      <button
-        type="button"
-        class="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 active:bg-blue-800"
-        (click)="onConfirm()"
-      >
-        Start
-      </button>
-    </div>
+    }
   </div>
-</div>
+
+  <div class="flex gap-3">
+    <button
+      type="button"
+      class="flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 active:bg-gray-100"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 active:bg-blue-800"
+      (click)="onConfirm()"
+    >
+      Start
+    </button>
+  </div>
+</dialog>

@@ -1,12 +1,15 @@
-import { Component, input, linkedSignal, output } from '@angular/core';
+import { Component, ElementRef, input, linkedSignal, output, viewChild } from '@angular/core';
 import type { Difficulty } from '@repo/sudoku-wasm';
+import { AutoShowDialogDirective } from '../auto-show-dialog.directive';
 
 @Component({
   selector: 'app-modal',
-  imports: [],
+  imports: [AutoShowDialogDirective],
   templateUrl: './modal.component.html',
 })
 export class ModalComponent {
+  private readonly dialogRef = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
+
   readonly initialDifficulty = input<Difficulty>('medium');
   readonly cancelModal = output<void>();
   readonly confirmModal = output<Difficulty>();
@@ -19,10 +22,17 @@ export class ModalComponent {
   }
 
   onCancel(): void {
+    this.dialogRef().nativeElement.close();
     this.cancelModal.emit();
   }
 
   onConfirm(): void {
+    this.dialogRef().nativeElement.close();
     this.confirmModal.emit(this.selected());
+  }
+
+  onDialogCancel(event: Event): void {
+    event.preventDefault();
+    this.onCancel();
   }
 }

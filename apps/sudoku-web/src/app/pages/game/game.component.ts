@@ -2,12 +2,13 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '../../core/services/app.service';
 import { GameService } from '../../core/services/game.service';
+import { AutoShowDialogDirective } from '../../shared/auto-show-dialog.directive';
 import { BoardComponent } from './board/board.component';
 import { InputPadComponent } from './input-pad/input-pad.component';
 
 @Component({
   selector: 'app-game',
-  imports: [BoardComponent, InputPadComponent],
+  imports: [BoardComponent, InputPadComponent, AutoShowDialogDirective],
   templateUrl: './game.component.html',
 })
 export class GameComponent {
@@ -32,7 +33,11 @@ export class GameComponent {
   });
 
   onCellSelect(index: number): void {
-    this.selectedIndex.update((prev) => (prev === index ? null : index));
+    this.selectedIndex.set(index);
+  }
+
+  onDeselect(): void {
+    this.selectedIndex.set(null);
   }
 
   onDigitInput(digit: number): void {
