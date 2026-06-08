@@ -4,7 +4,7 @@ export type AppPhase = 'idle' | 'initializing' | 'loading' | 'playing' | 'paused
 export type PuzzleStatus = 'in_progress' | 'solved' | 'abandoned';
 
 export type AppState = {
-  phase: 'idle' | 'playing' | 'paused';
+  phase: AppPhase;
   lastDifficulty: Difficulty;
 };
 

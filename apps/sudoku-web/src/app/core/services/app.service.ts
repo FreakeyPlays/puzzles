@@ -117,10 +117,7 @@ export class AppService {
 
   private persistAppState(): void {
     const phase = this._phase();
-    if (phase === 'loading') return;
-    this.storage.writeAppState({
-      phase: phase as 'idle' | 'playing' | 'paused',
-      lastDifficulty: this._lastDifficulty(),
-    });
+    if (phase === 'loading' || phase === 'initializing') return;
+    this.storage.writeAppState({ phase, lastDifficulty: this._lastDifficulty() });
   }
 }
