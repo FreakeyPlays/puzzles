@@ -1,6 +1,8 @@
 import type { Difficulty } from './difficulty.model';
 
 export type AppPhase = 'idle' | 'initializing' | 'loading' | 'playing' | 'paused';
+export type ActivePhase = 'playing' | 'paused';
+export const ACTIVE_PHASES: ReadonlyArray<ActivePhase> = ['playing', 'paused'];
 export type PuzzleStatus = 'in_progress' | 'solved' | 'abandoned';
 
 export type AppState = {
