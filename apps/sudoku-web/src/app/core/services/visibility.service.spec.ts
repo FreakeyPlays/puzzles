@@ -13,7 +13,11 @@ describe('VisibilityService', () => {
   });
 
   it('initializes isVisible to true when document is not hidden', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+    const doc = TestBed.inject(DOCUMENT);
     Object.defineProperty(doc, 'hidden', { value: false, configurable: true });
+    const service = TestBed.inject(VisibilityService);
     expect(service.isVisible()).toBe(true);
   });
 
