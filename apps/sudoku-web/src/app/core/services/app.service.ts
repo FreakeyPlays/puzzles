@@ -14,7 +14,7 @@ export class AppService {
   private readonly storage = inject(StorageService);
   private readonly visibility = inject(VisibilityService);
 
-  private readonly _phase = signal<AppPhase>('idle');
+  private readonly _phase = signal<AppPhase>('initializing');
   private readonly _lastDifficulty = signal<Difficulty>(DEFAULT_DIFFICULTY);
   private readonly _isRestoring = signal<boolean>(false);
 
@@ -99,8 +99,6 @@ export class AppService {
   }
 
   private async boot(): Promise<void> {
-    this._phase.set('initializing');
-
     const appState = this.storage.readAppState();
     if (!appState) {
       this._phase.set('idle');
