@@ -1,16 +1,26 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sudoku_core::{
     generate as core_generate, hint as core_hint, solve as core_solve, validate as core_validate,
 };
 use tsify_next::Tsify;
 use wasm_bindgen::prelude::*;
 
+#[derive(Serialize, Deserialize, Tsify, Clone, Copy)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+#[serde(rename_all = "lowercase")]
+pub enum Difficulty {
+    Easy,
+    Medium,
+    Hard,
+    Extreme,
+}
+
 #[derive(Serialize, Tsify)]
 #[tsify(into_wasm_abi)]
 pub struct GenerateResult {
     pub puzzle: String,
     pub solution: String,
-    pub difficulty: String,
+    pub difficulty: Difficulty,
     pub seed: u32,
 }
 
@@ -31,18 +41,19 @@ pub struct HintResult {
 }
 
 #[wasm_bindgen]
-pub fn generate(difficulty: Option<String>, seed: Option<u32>) -> Result<GenerateResult, JsError> {
-    let difficulty_str = difficulty.as_deref().unwrap_or("medium");
-    if !["easy", "medium", "hard", "extreme"].contains(&difficulty_str) {
-        return Err(JsError::new(&format!(
-            "Invalid difficulty: {difficulty_str}"
-        )));
-    }
+pub fn generate(difficulty: Option<Difficulty>, seed: Option<u32>) -> Result<GenerateResult, JsError> {
+    let d = difficulty.unwrap_or(Difficulty::Medium);
+    let difficulty_str = match d {
+        Difficulty::Easy => "easy",
+        Difficulty::Medium => "medium",
+        Difficulty::Hard => "hard",
+        Difficulty::Extreme => "extreme",
+    };
     let result = core_generate(difficulty_str, seed);
     Ok(GenerateResult {
         puzzle: result.puzzle,
         solution: result.solution,
-        difficulty: result.difficulty,
+        difficulty: d,
         seed: result.seed,
     })
 }

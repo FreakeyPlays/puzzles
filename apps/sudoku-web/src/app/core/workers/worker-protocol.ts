@@ -1,5 +1,4 @@
-import type { GenerateResult, HintResult, ValidateResult } from '@repo/sudoku-wasm';
-import type { Difficulty } from '../models/difficulty.model';
+import type { Difficulty, GenerateResult, HintResult, ValidateResult } from '@repo/sudoku-wasm';
 
 export type { Difficulty, GenerateResult, HintResult, ValidateResult };
 

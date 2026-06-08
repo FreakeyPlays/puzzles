@@ -1,2 +1,4 @@
-export type Difficulty = 'easy' | 'medium' | 'hard' | 'extreme';
+import type { Difficulty } from '@repo/sudoku-wasm';
+
+export type { Difficulty };
 export const DEFAULT_DIFFICULTY: Difficulty = 'medium';
