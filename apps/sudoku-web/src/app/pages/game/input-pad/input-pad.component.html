@@ -3,6 +3,7 @@
     <button
       type="button"
       class="flex aspect-square items-center justify-center rounded-xl bg-gray-100 text-xl font-bold text-gray-800 transition-colors hover:bg-gray-200 active:bg-gray-300 active:scale-95"
+      [attr.aria-label]="'Place ' + digit"
       (click)="onDigit(digit)"
     >
       {{ digit }}
@@ -14,7 +15,7 @@
     (click)="onErase()"
     aria-label="Erase"
   >
-    <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"

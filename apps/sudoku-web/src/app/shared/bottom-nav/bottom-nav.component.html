@@ -1,13 +1,14 @@
-<nav class="flex border-t border-gray-200 bg-white safe-area-bottom">
-  <button
-    type="button"
-    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600 active:text-blue-600"
-    routerLinkActive="text-blue-600"
-    [routerLinkActiveOptions]="{ exact: false }"
+<nav aria-label="Main navigation" class="flex border-t border-gray-200 bg-white safe-area-bottom">
+  <a
     routerLink="/"
+    routerLinkActive="text-blue-600"
+    #homeLink="routerLinkActive"
+    [routerLinkActiveOptions]="{ exact: false }"
+    [attr.aria-current]="homeLink.isActive ? 'page' : null"
+    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600 active:text-blue-600"
     (click)="onHomeTap()"
   >
-    <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -16,14 +17,16 @@
       />
     </svg>
     Home
-  </button>
+  </a>
 
   <a
     routerLink="/history"
     routerLinkActive="text-blue-600"
+    #historyLink="routerLinkActive"
+    [attr.aria-current]="historyLink.isActive ? 'page' : null"
     class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600"
   >
-    <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -37,9 +40,11 @@
   <a
     routerLink="/settings"
     routerLinkActive="text-blue-600"
+    #settingsLink="routerLinkActive"
+    [attr.aria-current]="settingsLink.isActive ? 'page' : null"
     class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600"
   >
-    <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"
