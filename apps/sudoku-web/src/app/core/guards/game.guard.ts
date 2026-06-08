@@ -7,7 +7,7 @@ export const gameGuard: CanActivateFn = () => {
   const app = inject(AppService);
   const router = inject(Router);
 
-  if (!ACTIVE_PHASES.includes(app.phase() as 'playing' | 'paused')) {
+  if (!ACTIVE_PHASES.includes(app.phase())) {
     return router.createUrlTree(['/']);
   }
 
