@@ -1,0 +1,5 @@
+# getrandom 0.3+ requires explicitly selecting the wasm browser-crypto backend.
+# Scoped to wasm32 so native builds/tests are unaffected. Pairs with the
+# getrandom `wasm_js` feature in packages/sudoku-wasm/Cargo.toml.
+[target.wasm32-unknown-unknown]
+rustflags = ['--cfg', 'getrandom_backend="wasm_js"']

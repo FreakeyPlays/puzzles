@@ -1,3 +1,5 @@
+use rustoku_lib::{Difficulty, Rustoku, format_line, generate_board_by_difficulty};
+
 pub struct GenerateResult {
     pub puzzle: String,
     pub solution: String,
@@ -17,30 +19,33 @@ pub struct HintResult {
     pub technique: String,
 }
 
-// Hardcoded puzzle used until the real solver/generator is implemented.
-const STUB_PUZZLE: &str =
-    "530070000600195000098000060800060003400803001700020006060000280000419005000080079";
-const STUB_SOLUTION: &str =
-    "534678912672195348198342567859761423426853791713924856961537284287419635345286179";
-
 pub fn generate(difficulty: &str, _seed: Option<u32>) -> GenerateResult {
+    let level = match difficulty {
+        "easy" => Difficulty::Easy,
+        "medium" => Difficulty::Medium,
+        "hard" => Difficulty::Hard,
+        "expert" => Difficulty::Expert,
+        _ => Difficulty::Medium,
+    };
+
+    let board = generate_board_by_difficulty(level, 100).unwrap();
+    let board_str = format_line(&board);
+    let mut solver = Rustoku::new(board).unwrap();
+    let solution = solver.solve_any().unwrap();
+    let solution_str = format_line(&solution.board);
+
     GenerateResult {
-        puzzle: STUB_PUZZLE.to_string(),
-        solution: STUB_SOLUTION.to_string(),
-        difficulty: difficulty.to_string(),
-        seed: 42,
+        puzzle: board_str,
+        solution: solution_str,
+        difficulty: level.to_string(),
+        seed: 0,
     }
 }
 
 pub fn solve(board: &str) -> Option<String> {
-    // Return the solution only when given the matching stub puzzle so that
-    // the boot-sequence restore path works correctly. For other boards (e.g.
-    // a board the real solver hasn't seen) return None.
-    if board == STUB_PUZZLE {
-        Some(STUB_SOLUTION.to_string())
-    } else {
-        None
-    }
+    let mut solver = Rustoku::new_from_str(board).ok()?;
+    let solution = solver.solve_any()?;
+    Some(format_line(&solution.board))
 }
 
 pub fn validate(_board: &str) -> ValidateResult {
