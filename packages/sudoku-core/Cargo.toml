@@ -5,3 +5,4 @@ edition = "2024"
 license = "MIT"
 
 [dependencies]
+rustoku-lib = "0.15.0"
