@@ -30,7 +30,7 @@ describe('SettingsItemComponent', () => {
     fixture.componentRef.setInput('description', 'Haptic feedback on moves');
     await fixture.whenStable();
     const paragraphs: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('p');
-    expect(paragraphs[1].textContent?.trim()).toBe('Haptic feedback on moves');
+    expect(paragraphs[1]!.textContent?.trim()).toBe('Haptic feedback on moves');
   });
 
   it('should not render the description element when not provided', () => {
