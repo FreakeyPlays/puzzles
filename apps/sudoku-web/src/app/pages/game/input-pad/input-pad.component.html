@@ -1,13 +1,15 @@
 <div class="mx-auto grid w-full max-w-sm grid-cols-5 gap-2 px-1">
   @for (digit of digits; track digit) {
-    <button
-      type="button"
-      class="flex aspect-square items-center justify-center rounded-xl bg-gray-100 text-xl font-bold text-gray-800 transition-colors hover:bg-gray-200 active:bg-gray-300 active:scale-95"
-      [attr.aria-label]="'Place ' + digit"
-      (click)="onDigit(digit)"
-    >
-      {{ digit }}
-    </button>
+    @if (!usedDigits().has(digit)) {
+      <button
+        type="button"
+        class="flex aspect-square items-center justify-center rounded-xl bg-gray-100 text-xl font-bold text-gray-800 transition-colors hover:bg-gray-200 active:bg-gray-300 active:scale-95"
+        [attr.aria-label]="'Place ' + digit"
+        (click)="onDigit(digit)"
+      >
+        {{ digit }}
+      </button>
+    }
   }
   <button
     type="button"
