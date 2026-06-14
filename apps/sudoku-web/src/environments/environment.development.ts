@@ -1,9 +1,10 @@
 import packageJson from '../../package.json';
-import gitHash from './git-hash.json';
 import { Environment } from './environment.config';
+
+declare const __GIT_HASH__: string;
 
 export const environment: Environment = {
   production: false,
   version: `v${packageJson.version}`,
-  commitHash: gitHash.hash,
+  commitHash: __GIT_HASH__,
 };
