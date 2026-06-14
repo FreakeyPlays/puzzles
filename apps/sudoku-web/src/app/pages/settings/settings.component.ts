@@ -1,9 +1,9 @@
 import { Component, computed, inject } from '@angular/core';
 import { HapticsService } from '../../core/services/haptics.service';
 import { SettingsService } from '../../core/services/settings.service';
-import { SwitchComponent } from '../../shared/components/switch/switch.component';
 import { SettingsAreaComponent } from './settings-area/settings-area.component';
-import { SettingsOptionComponent } from './settings-option/settings-option.component';
+import { SettingsOptionComponent } from './settings-area/settings-option/settings-option.component';
+import { SwitchComponent } from './settings-area/settings-option/switch/switch.component';
 
 @Component({
   selector: 'app-settings',
