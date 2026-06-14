@@ -4,5 +4,6 @@ import { Environment } from './environment.config';
 
 export const environment: Environment = {
   production: false,
-  version: `v${packageJson.version} - dev (${gitHash.hash})`,
+  version: `v${packageJson.version}`,
+  commitHash: gitHash.hash,
 };
