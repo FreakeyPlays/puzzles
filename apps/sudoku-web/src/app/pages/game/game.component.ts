@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { AppService } from '../../core/services/app.service';
 import { GameService } from '../../core/services/game.service';
 import { AutoShowDialogDirective } from '../../shared/directives/auto-show-dialog.directive';
+import { ConfettiDirective } from '../../shared/directives/confetti.directive';
 import { BoardComponent } from './board/board.component';
 import { InputPadComponent } from './input-pad/input-pad.component';
 
 @Component({
   selector: 'app-game',
-  imports: [BoardComponent, InputPadComponent, AutoShowDialogDirective],
+  imports: [BoardComponent, InputPadComponent, AutoShowDialogDirective, ConfettiDirective],
   templateUrl: './game.component.html',
 })
 export class GameComponent {
