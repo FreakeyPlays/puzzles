@@ -8,7 +8,7 @@ export class HapticsService {
   private readonly settings = inject(SettingsService);
 
   private get enabled() {
-    return this.settings.settings().hapticFeedback;
+    return this.settings.feedback().vibrations;
   }
 
   correct() {

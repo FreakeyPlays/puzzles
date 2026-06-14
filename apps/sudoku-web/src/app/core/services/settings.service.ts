@@ -1,12 +1,26 @@
-import { effect, inject, Service, signal, untracked } from '@angular/core';
+import { computed, effect, inject, Service, signal, untracked } from '@angular/core';
 import { StorageService } from './storage.service';
 
+export interface FeedbackSettings {
+  vibrations: boolean;
+}
+
+export interface UISettings {
+  darkMode: boolean;
+}
+
 export interface AppSettings {
-  hapticFeedback: boolean;
+  feedback: FeedbackSettings;
+  ui: UISettings;
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
-  hapticFeedback: true,
+  feedback: {
+    vibrations: true,
+  },
+  ui: {
+    darkMode: false,
+  },
 };
 
 @Service()
@@ -14,12 +28,16 @@ export class SettingsService {
   private readonly storage = inject(StorageService);
   private readonly _settings = signal<AppSettings>(DEFAULT_SETTINGS);
 
-  readonly settings = this._settings.asReadonly();
+  readonly feedback = computed(() => this._settings().feedback);
+  readonly ui = computed(() => this._settings().ui);
 
   constructor() {
-    const persistedSettings = this.storage.readSettings();
-    if (persistedSettings !== null) {
-      this._settings.set(persistedSettings);
+    const persisted = this.storage.readSettings();
+    if (persisted !== null) {
+      this._settings.set({
+        feedback: { ...DEFAULT_SETTINGS.feedback, ...persisted.feedback },
+        ui: { ...DEFAULT_SETTINGS.ui, ...persisted.ui },
+      });
     }
 
     effect(() => {
@@ -30,7 +48,11 @@ export class SettingsService {
     });
   }
 
-  update(patch: Partial<AppSettings>) {
-    this._settings.update(current => ({ ...current, ...patch }));
+  updateFeedback(patch: Partial<FeedbackSettings>) {
+    this._settings.update(s => ({ ...s, feedback: { ...s.feedback, ...patch } }));
+  }
+
+  updateUI(patch: Partial<UISettings>) {
+    this._settings.update(s => ({ ...s, ui: { ...s.ui, ...patch } }));
   }
 }
