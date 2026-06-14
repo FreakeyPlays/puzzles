@@ -82,8 +82,12 @@ mod tests {
     }
 
     #[test]
-    fn solve_returns_none_for_unknown_board() {
-        assert_eq!(solve(&"0".repeat(81)), None);
+    fn solve_returns_none_for_unsolvable_board() {
+        // Two 1s in the first row — no valid completion exists.
+        assert_eq!(
+            solve("110000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+            None
+        );
     }
 
     #[test]
