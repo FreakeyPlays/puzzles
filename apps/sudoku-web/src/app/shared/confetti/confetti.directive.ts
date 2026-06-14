@@ -10,15 +10,43 @@ import confetti, {
 export class ConfettiDirective {
   constructor() {
     afterNextRender(() => {
-      this.fireCannon({ x: 0, y: 0.8 }, 90);
-      this.fireCannon({ x: 1, y: 0.8 }, 90);
+      const scale = Math.max(0, Math.min(1, (window.innerWidth - 390) / (1440 - 390)));
+      const inset = scale * 0.15;
+      const velocityBoost = scale * 20;
+      const countScale = 1 + scale * 0.5;
+
+      this.fireCannon({ x: inset, y: 0.8 }, 90, velocityBoost, countScale);
+      this.fireCannon({ x: 1 - inset, y: 0.8 }, 90, velocityBoost, countScale);
     });
   }
 
-  private fireCannon(origin: ConfettoOrigin, angle: number): void {
-    const base: ConfettiOptions = { origin, angle, spread: 35, startVelocity: 50 };
-    void confetti({ ...base, particleCount: 60 });
-    setTimeout(() => confetti({ ...base, particleCount: 40, spread: 25, startVelocity: 40 }), 200);
-    setTimeout(() => confetti({ ...base, particleCount: 50, spread: 45, startVelocity: 55 }), 400);
+  private fireCannon(
+    origin: ConfettoOrigin,
+    angle: number,
+    velocityBoost: number,
+    countScale: number,
+  ): void {
+    const base: ConfettiOptions = { origin, angle, spread: 35, startVelocity: 50 + velocityBoost };
+    void confetti({ ...base, particleCount: Math.round(60 * countScale) });
+    setTimeout(
+      () =>
+        confetti({
+          ...base,
+          particleCount: Math.round(40 * countScale),
+          spread: 25,
+          startVelocity: 40 + velocityBoost,
+        }),
+      200,
+    );
+    setTimeout(
+      () =>
+        confetti({
+          ...base,
+          particleCount: Math.round(50 * countScale),
+          spread: 45,
+          startVelocity: 55 + velocityBoost,
+        }),
+      400,
+    );
   }
 }
