@@ -11,12 +11,11 @@ export class ConfettiDirective {
   constructor() {
     afterNextRender(() => {
       const scale = Math.max(0, Math.min(1, (window.innerWidth - 390) / (1440 - 390)));
-      const inset = scale * 0.15;
       const velocityBoost = scale * 20;
       const countScale = 1 + scale * 0.5;
 
-      this.fireCannon({ x: inset, y: 0.8 }, 90, velocityBoost, countScale);
-      this.fireCannon({ x: 1 - inset, y: 0.8 }, 90, velocityBoost, countScale);
+      this.fireCannon({ x: 0, y: 0.8 }, 90, velocityBoost, countScale);
+      this.fireCannon({ x: 1, y: 0.8 }, 90, velocityBoost, countScale);
     });
   }
 
