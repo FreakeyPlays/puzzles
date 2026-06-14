@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import type { GameState } from '../models/app-state.model';
 import { GameService } from './game.service';
+import { HapticsService } from './haptics.service';
 import { StorageService } from './storage.service';
 import { SudokuService } from './sudoku.service';
 
@@ -19,15 +20,18 @@ describe('GameService', () => {
   let service: GameService;
   let mockStorage: { writePuzzle: ReturnType<typeof vi.fn>; readPuzzle: ReturnType<typeof vi.fn> };
   let mockSudoku: { generate: ReturnType<typeof vi.fn>; hint: ReturnType<typeof vi.fn> };
+  let mockHaptics: { win: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     mockStorage = { writePuzzle: vi.fn(), readPuzzle: vi.fn().mockReturnValue(null) };
     mockSudoku = { generate: vi.fn(), hint: vi.fn() };
+    mockHaptics = { win: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
         { provide: StorageService, useValue: mockStorage },
         { provide: SudokuService, useValue: mockSudoku },
+        { provide: HapticsService, useValue: mockHaptics },
       ],
     });
     service = TestBed.inject(GameService);
