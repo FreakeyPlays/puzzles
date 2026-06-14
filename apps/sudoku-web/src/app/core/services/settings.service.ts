@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 
 export interface FeedbackSettings {
   vibrations: boolean;
+  audio: boolean;
 }
 
 export interface UISettings {
@@ -17,6 +18,7 @@ export interface AppSettings {
 const DEFAULT_SETTINGS: AppSettings = {
   feedback: {
     vibrations: true,
+    audio: false,
   },
   ui: {
     darkMode: false,
@@ -49,10 +51,10 @@ export class SettingsService {
   }
 
   updateFeedback(patch: Partial<FeedbackSettings>) {
-    this._settings.update(s => ({ ...s, feedback: { ...s.feedback, ...patch } }));
+    this._settings.update((s) => ({ ...s, feedback: { ...s.feedback, ...patch } }));
   }
 
   updateUI(patch: Partial<UISettings>) {
-    this._settings.update(s => ({ ...s, ui: { ...s.ui, ...patch } }));
+    this._settings.update((s) => ({ ...s, ui: { ...s.ui, ...patch } }));
   }
 }

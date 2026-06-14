@@ -20,6 +20,13 @@ import { SwitchComponent } from './settings-group/settings-item/switch/switch.co
             (checkedChange)="onVibrations($event)"
           />
         </app-settings-item>
+        <app-settings-item title="Audio" description="Audio feedback on moves">
+          <app-switch
+            ariaLabel="Audio"
+            [checked]="feedback().audio"
+            (checkedChange)="onAudio($event)"
+          />
+        </app-settings-item>
       </app-settings-group>
 
       <app-settings-group title="Appearance">
@@ -46,6 +53,10 @@ export class SettingsComponent {
     if (enabled) {
       this.haptics.correct();
     }
+  }
+
+  onAudio(enabled: boolean) {
+    this.settingsService.updateFeedback({ audio: enabled });
   }
 
   onDarkMode(enabled: boolean) {

@@ -1,4 +1,4 @@
-import { inject, Service } from '@angular/core';
+import { effect, inject, Service } from '@angular/core';
 import { WebHaptics } from 'web-haptics';
 import { SettingsService } from './settings.service';
 
@@ -6,6 +6,12 @@ import { SettingsService } from './settings.service';
 export class HapticsService {
   private readonly haptics = new WebHaptics({ debug: true });
   private readonly settings = inject(SettingsService);
+
+  constructor() {
+    effect(() => {
+      this.haptics.setDebug(this.settings.feedback().audio);
+    });
+  }
 
   private get enabled() {
     return this.settings.feedback().vibrations;
