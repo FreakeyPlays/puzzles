@@ -1,4 +1,4 @@
-import { afterNextRender, Component } from '@angular/core';
+import { afterNextRender, Component, ElementRef, inject } from '@angular/core';
 import confetti from 'canvas-confetti';
 
 @Component({
@@ -6,10 +6,16 @@ import confetti from 'canvas-confetti';
   template: '',
 })
 export class ConfettiComponent {
+  private readonly el = inject(ElementRef);
+
   constructor() {
     afterNextRender(() => {
-      this.fireCannon({ x: 0, y: 0.8 }, 90);
-      this.fireCannon({ x: 1, y: 0.8 }, 90);
+      const dialog = (this.el.nativeElement as HTMLElement).closest('dialog');
+      const rect = dialog?.getBoundingClientRect();
+      const centerX = rect ? (rect.left + rect.right) / 2 / window.innerWidth : 0.5;
+
+      this.fireCannon({ x: centerX - 0.1, y: 0.8 }, 90);
+      this.fireCannon({ x: centerX + 0.1, y: 0.8 }, 90);
     });
   }
 
