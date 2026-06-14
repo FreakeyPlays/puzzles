@@ -26,6 +26,8 @@ describe('GameComponent', () => {
     endGame: ReturnType<typeof vi.fn>;
   };
   const mockSettings = {
+    feedback: signal({ vibrations: false, audio: false }),
+    ui: signal({ darkMode: false }),
     game: signal({ highlightErrors: true }),
   };
 
