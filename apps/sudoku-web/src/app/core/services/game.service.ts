@@ -97,12 +97,6 @@ export class GameService {
     this.storage.writePuzzle(this.snapshot());
   }
 
-  solve(): void {
-    this._edits.set(this.solution);
-    this.checkWin();
-    this.storage.writePuzzle(this.snapshot());
-  }
-
   async requestHint(): Promise<void> {
     const { value } = await this.sudoku.hint(this.currentBoard());
     if (value !== undefined) {
