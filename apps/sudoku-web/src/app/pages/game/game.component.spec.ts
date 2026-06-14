@@ -3,6 +3,7 @@ import { signal } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppService } from '../../core/services/app.service';
 import { GameService } from '../../core/services/game.service';
+import { SettingsService } from '../../core/services/settings.service';
 import { GameComponent } from './game.component';
 
 describe('GameComponent', () => {
@@ -11,6 +12,7 @@ describe('GameComponent', () => {
   let mockGame: {
     puzzle: ReturnType<typeof signal<string>>;
     edits: ReturnType<typeof signal<string>>;
+    solution: ReturnType<typeof signal<string>>;
     difficulty: ReturnType<typeof signal<'medium'>>;
     status: ReturnType<typeof signal<'active' | 'solved'>>;
     elapsedSeconds: ReturnType<typeof signal<number>>;
@@ -23,6 +25,9 @@ describe('GameComponent', () => {
     newGame: ReturnType<typeof vi.fn>;
     endGame: ReturnType<typeof vi.fn>;
   };
+  const mockSettings = {
+    game: signal({ highlightErrors: true }),
+  };
 
   const EMPTY = '0'.repeat(81);
   const PUZZLE = '1' + '0'.repeat(80); // cell 0 is a given (value '1')
@@ -31,6 +36,7 @@ describe('GameComponent', () => {
     mockGame = {
       puzzle: signal(EMPTY),
       edits: signal(EMPTY),
+      solution: signal(''),
       difficulty: signal('medium'),
       status: signal('active'),
       elapsedSeconds: signal(0),
@@ -49,6 +55,7 @@ describe('GameComponent', () => {
       providers: [
         { provide: GameService, useValue: mockGame },
         { provide: AppService, useValue: mockApp },
+        { provide: SettingsService, useValue: mockSettings },
       ],
     }).compileComponents();
 
