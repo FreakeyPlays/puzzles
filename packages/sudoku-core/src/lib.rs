@@ -64,6 +64,11 @@ pub fn hint(_board: &str) -> Option<HintResult> {
 mod tests {
     use super::*;
 
+    const STUB_PUZZLE: &str =
+        "530070000600195000098000060800060003400803001700020006060000280000419005000080079";
+    const STUB_SOLUTION: &str =
+        "534678912672195348198342567859761423426853791713924856961537284287419635345286179";
+
     #[test]
     fn generate_returns_valid_stub() {
         let r = generate("medium", None);
@@ -77,8 +82,14 @@ mod tests {
     }
 
     #[test]
-    fn solve_returns_none_for_unknown_board() {
-        assert_eq!(solve(&"0".repeat(81)), None);
+    fn solve_returns_none_for_unsolvable_board() {
+        // Two 1s in the first row — no valid completion exists.
+        assert_eq!(
+            solve(
+                "110000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            ),
+            None
+        );
     }
 
     #[test]
