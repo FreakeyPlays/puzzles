@@ -29,6 +29,7 @@
   <app-board
     [puzzle]="game.puzzle()"
     [edits]="game.edits()"
+    [solution]="settings.game().highlightErrors ? game.solution() : ''"
     [selectedIndex]="selectedIndex()"
     (cellSelect)="onCellSelect($event)"
     (deselect)="onDeselect()"

@@ -18,11 +18,12 @@ export class GameService {
   private readonly _seed = signal<number>(0);
   private readonly _status = signal<GameStatus>('active');
   private readonly _elapsedSeconds = signal<number>(0);
-  private solution = '';
+  private readonly _solution = signal('');
   private timerInterval: ReturnType<typeof setInterval> | null = null;
 
   readonly puzzle = this._puzzle.asReadonly();
   readonly edits = this._edits.asReadonly();
+  readonly solution = this._solution.asReadonly();
   readonly difficulty = this._difficulty.asReadonly();
   readonly status = this._status.asReadonly();
   readonly elapsedSeconds = this._elapsedSeconds.asReadonly();
@@ -37,7 +38,7 @@ export class GameService {
 
   async beginNewPuzzle(difficulty: Difficulty): Promise<void> {
     const { value } = await this.sudoku.generate({ difficulty });
-    this.solution = value.solution;
+    this._solution.set(value.solution);
     this._puzzle.set(value.puzzle);
     this._edits.set('0'.repeat(81));
     this._difficulty.set(value.difficulty);
@@ -56,7 +57,7 @@ export class GameService {
   }
 
   setSolution(solution: string): void {
-    this.solution = solution;
+    this._solution.set(solution);
   }
 
   startTimer(): void {
@@ -106,7 +107,7 @@ export class GameService {
 
   private checkWin(): void {
     const board = this.currentBoard();
-    if (!board.includes('0') && board === this.solution) {
+    if (!board.includes('0') && board === this._solution()) {
       this.haptics.win();
       this._status.set('solved');
       this.stopTimer();

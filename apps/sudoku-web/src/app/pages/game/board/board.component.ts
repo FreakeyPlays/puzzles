@@ -9,6 +9,7 @@ type Cell = {
   value: string;
   isSelected: boolean;
   isPeer: boolean;
+  isWrong: boolean;
 };
 
 @Component({
@@ -19,6 +20,7 @@ type Cell = {
 export class BoardComponent {
   readonly puzzle = input.required<string>();
   readonly edits = input.required<string>();
+  readonly solution = input<string>('');
   readonly selectedIndex = input<number | null>(null);
 
   readonly cellSelect = output<number>();
@@ -30,6 +32,7 @@ export class BoardComponent {
   protected readonly rows = computed<Cell[][]>(() => {
     const puzzle = this.puzzle();
     const edits = this.edits();
+    const solution = this.solution();
     const selected = this.selectedIndex();
 
     const selRow = selected !== null ? Math.floor(selected / 9) : -1;
@@ -47,8 +50,10 @@ export class BoardComponent {
       const isSelected = i === selected;
       const isPeer =
         !isSelected && selected !== null && (row === selRow || col === selCol || box === selBox);
+      const isWrong =
+        !isGiven && editChar !== '0' && solution.length === 81 && editChar !== solution.charAt(i);
 
-      return { i, row, col, box, isGiven, value, isSelected, isPeer };
+      return { i, row, col, box, isGiven, value, isSelected, isPeer, isWrong };
     });
 
     return Array.from({ length: 9 }, (_, rowIndex) => cells.filter((c) => c.row === rowIndex));

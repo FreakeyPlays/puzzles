@@ -10,9 +10,14 @@ export interface UISettings {
   darkMode: boolean;
 }
 
+export interface GameSettings {
+  highlightErrors: boolean;
+}
+
 export interface AppSettings {
   feedback: FeedbackSettings;
   ui: UISettings;
+  game: GameSettings;
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -23,6 +28,9 @@ const DEFAULT_SETTINGS: AppSettings = {
   ui: {
     darkMode: false,
   },
+  game: {
+    highlightErrors: true,
+  },
 };
 
 @Service()
@@ -32,6 +40,7 @@ export class SettingsService {
 
   readonly feedback = computed(() => this._settings().feedback);
   readonly ui = computed(() => this._settings().ui);
+  readonly game = computed(() => this._settings().game);
 
   constructor() {
     const persisted = this.storage.readSettings();
@@ -39,6 +48,7 @@ export class SettingsService {
       this._settings.set({
         feedback: { ...DEFAULT_SETTINGS.feedback, ...persisted.feedback },
         ui: { ...DEFAULT_SETTINGS.ui, ...persisted.ui },
+        game: { ...DEFAULT_SETTINGS.game, ...persisted.game },
       });
     }
 
@@ -56,5 +66,9 @@ export class SettingsService {
 
   updateUI(patch: Partial<UISettings>) {
     this._settings.update((s) => ({ ...s, ui: { ...s.ui, ...patch } }));
+  }
+
+  updateGame(patch: Partial<GameSettings>) {
+    this._settings.update((s) => ({ ...s, game: { ...s.game, ...patch } }));
   }
 }
