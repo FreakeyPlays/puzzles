@@ -13,7 +13,7 @@ describe('SwitchComponent', () => {
 
     fixture = TestBed.createComponent(SwitchComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('label', 'Test');
+    fixture.componentRef.setInput('ariaLabel', 'Test switch');
     await fixture.whenStable();
   });
 
@@ -24,6 +24,11 @@ describe('SwitchComponent', () => {
   it('should have role="switch" on the button', () => {
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
     expect(button.getAttribute('role')).toBe('switch');
+  });
+
+  it('should set aria-label on the button', () => {
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.getAttribute('aria-label')).toBe('Test switch');
   });
 
   it('should reflect checked state in aria-checked', async () => {
@@ -48,11 +53,5 @@ describe('SwitchComponent', () => {
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
     button.click();
     expect(emitted).toEqual([true]);
-  });
-
-  it('should associate button with label via aria-labelledby', async () => {
-    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
-    const labelDiv: HTMLElement = fixture.nativeElement.querySelector('[id]');
-    expect(button.getAttribute('aria-labelledby')).toBe(labelDiv.id);
   });
 });

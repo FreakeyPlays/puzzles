@@ -2,27 +2,25 @@ import { Component, computed, inject } from '@angular/core';
 import { HapticsService } from '../../core/services/haptics.service';
 import { SettingsService } from '../../core/services/settings.service';
 import { SwitchComponent } from '../../shared/components/switch/switch.component';
+import { SettingsAreaComponent } from './settings-area/settings-area.component';
+import { SettingsOptionComponent } from './settings-option/settings-option.component';
 
 @Component({
   selector: 'app-settings',
-  imports: [SwitchComponent],
+  imports: [SettingsAreaComponent, SettingsOptionComponent, SwitchComponent],
   template: `
     <div class="flex flex-col gap-6 px-4 py-6 max-w-md mx-auto w-full">
       <h1 class="px-1 text-2xl font-bold text-gray-900">Settings</h1>
 
-      <section class="flex flex-col gap-2">
-        <h2 class="px-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Feedback</h2>
-        <div class="overflow-hidden rounded-2xl bg-white shadow-sm">
-          <div class="px-4 py-4">
-            <app-switch
-              label="Vibrations"
-              description="Haptic feedback on moves"
-              [checked]="hapticEnabled()"
-              (checkedChange)="onHapticChange($event)"
-            />
-          </div>
-        </div>
-      </section>
+      <app-settings-area title="Feedback">
+        <app-settings-option title="Vibrations" description="Haptic feedback on moves">
+          <app-switch
+            ariaLabel="Vibrations"
+            [checked]="hapticEnabled()"
+            (checkedChange)="onHapticChange($event)"
+          />
+        </app-settings-option>
+      </app-settings-area>
     </div>
   `,
 })
