@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '../../core/services/app.service';
 import { GameService } from '../../core/services/game.service';
+import { SettingsService } from '../../core/services/settings.service';
 import { AutoShowDialogDirective } from '../../shared/directives/auto-show-dialog.directive';
 import { ConfettiDirective } from '../../shared/directives/confetti.directive';
 import { BoardComponent } from './board/board.component';
@@ -15,6 +16,7 @@ import { InputPadComponent } from './input-pad/input-pad.component';
 export class GameComponent {
   protected readonly app = inject(AppService);
   protected readonly game = inject(GameService);
+  protected readonly settings = inject(SettingsService);
   private readonly router = inject(Router);
 
   protected readonly selectedIndex = signal<number | null>(null);
