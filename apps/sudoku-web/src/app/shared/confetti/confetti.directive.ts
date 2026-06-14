@@ -1,18 +1,16 @@
-import { afterNextRender, Component, ElementRef, inject } from '@angular/core';
+import { afterNextRender, Directive, ElementRef, inject } from '@angular/core';
 import confetti from 'canvas-confetti';
 
-@Component({
-  selector: 'app-confetti',
-  template: '',
+@Directive({
+  selector: '[appConfetti]',
 })
-export class ConfettiComponent {
+export class ConfettiDirective {
   private readonly el = inject(ElementRef);
 
   constructor() {
     afterNextRender(() => {
-      const dialog = (this.el.nativeElement as HTMLElement).closest('dialog');
-      const rect = dialog?.getBoundingClientRect();
-      const centerX = rect ? (rect.left + rect.right) / 2 / window.innerWidth : 0.5;
+      const rect = (this.el.nativeElement as HTMLElement).getBoundingClientRect();
+      const centerX = (rect.left + rect.right) / 2 / window.innerWidth;
 
       this.fireCannon({ x: centerX - 0.1, y: 0.8 }, 90);
       this.fireCannon({ x: centerX + 0.1, y: 0.8 }, 90);
