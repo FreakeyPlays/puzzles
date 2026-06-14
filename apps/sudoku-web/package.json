@@ -3,6 +3,8 @@
   "version": "0.2.0",
   "scripts": {
     "ng": "ng",
+    "prepare": "node scripts/write-git-hash.js || true",
+    "predev": "node scripts/write-git-hash.js",
     "build": "ng build",
     "dev": "ng serve --configuration development",
     "start": "ng serve",
