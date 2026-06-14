@@ -12,6 +12,7 @@ export interface UISettings {
 
 export interface GameSettings {
   highlightErrors: boolean;
+  removeUsedNumbers: boolean;
 }
 
 export interface AppSettings {
@@ -30,6 +31,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   },
   game: {
     highlightErrors: true,
+    removeUsedNumbers: true,
   },
 };
 

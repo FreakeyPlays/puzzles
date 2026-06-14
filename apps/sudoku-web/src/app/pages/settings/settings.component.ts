@@ -38,6 +38,16 @@ import { SwitchComponent } from './settings-group/settings-item/switch/switch.co
             (checkedChange)="onHighlightErrors($event)"
           />
         </app-settings-item>
+        <app-settings-item
+          title="Remove Used Numbers"
+          description="Hide a number button when all its digits are placed"
+        >
+          <app-switch
+            ariaLabel="Remove Used Numbers"
+            [checked]="game().removeUsedNumbers"
+            (checkedChange)="onRemoveUsedNumbers($event)"
+          />
+        </app-settings-item>
       </app-settings-group>
 
       <app-settings-group title="Appearance">
@@ -83,5 +93,9 @@ export class SettingsComponent {
 
   onHighlightErrors(enabled: boolean) {
     this.settingsService.updateGame({ highlightErrors: enabled });
+  }
+
+  onRemoveUsedNumbers(enabled: boolean) {
+    this.settingsService.updateGame({ removeUsedNumbers: enabled });
   }
 }
