@@ -56,10 +56,7 @@
                 "output": "."
               }
             ],
-            "styles": ["src/styles.css"],
-            "define": {
-              "__GIT_HASH__": "\"\""
-            }
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {
