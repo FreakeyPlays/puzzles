@@ -8,8 +8,8 @@ import confetti from 'canvas-confetti';
 export class ConfettiComponent {
   constructor() {
     afterNextRender(() => {
-      this.fireCannon({ x: 0, y: 1 }, 60);
-      this.fireCannon({ x: 1, y: 1 }, 120);
+      this.fireCannon({ x: 0, y: 0.8 }, 90);
+      this.fireCannon({ x: 1, y: 0.8 }, 90);
     });
   }
 
