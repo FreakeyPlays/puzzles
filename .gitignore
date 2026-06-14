@@ -49,9 +49,6 @@ apps/*/twa/app/
 apps/*/twa/.gradle/
 apps/*/twa/build/
 
-# Auto-generated at dev/install time
-apps/sudoku-web/src/environments/git-hash.json
-
 # System files
 .DS_Store
 Thumbs.db

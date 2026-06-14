@@ -79,6 +79,9 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
+              "define": {
+                "__GIT_HASH__": "\"\""
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
