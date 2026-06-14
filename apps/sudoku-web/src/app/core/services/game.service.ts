@@ -4,11 +4,13 @@ import { DEFAULT_DIFFICULTY } from '../models/difficulty.model';
 import type { Difficulty } from '@repo/sudoku-wasm';
 import { StorageService } from './storage.service';
 import { SudokuService } from './sudoku.service';
+import { HapticsService } from './haptics.service';
 
 @Service()
 export class GameService {
   private readonly sudoku = inject(SudokuService);
   private readonly storage = inject(StorageService);
+  private readonly haptics = inject(HapticsService);
 
   private readonly _puzzle = signal<string>('0'.repeat(81));
   private readonly _edits = signal<string>('0'.repeat(81));
@@ -105,6 +107,7 @@ export class GameService {
   private checkWin(): void {
     const board = this.currentBoard();
     if (!board.includes('0') && board === this.solution) {
+      this.haptics.win();
       this._status.set('solved');
       this.stopTimer();
     }
