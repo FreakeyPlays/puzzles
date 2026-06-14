@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { HapticsService } from '../../core/services/haptics.service';
 import { SettingsService } from '../../core/services/settings.service';
 import { SettingsGroupComponent } from './settings-group/settings-group.component';
@@ -38,6 +39,8 @@ import { SwitchComponent } from './settings-group/settings-item/switch/switch.co
           />
         </app-settings-item>
       </app-settings-group>
+
+      <p class="px-1 text-center text-xs text-gray-400">{{ version }}</p>
     </div>
   `,
 })
@@ -47,6 +50,10 @@ export class SettingsComponent {
 
   readonly feedback = this.settingsService.feedback;
   readonly ui = this.settingsService.ui;
+
+  readonly version = [environment.version, !environment.production && 'dev', environment.commitHash]
+    .filter(Boolean)
+    .join(' · ');
 
   onVibrations(enabled: boolean) {
     this.settingsService.updateFeedback({ vibrations: enabled });

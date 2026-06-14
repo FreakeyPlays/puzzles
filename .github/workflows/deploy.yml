@@ -57,4 +57,6 @@ jobs:
             df19f248-11ce-4d7f-a4db-b45b017c1226 > CLOUDFLARE_ACCOUNT_ID
 
       - name: Build + deploy via Turbo
+        env:
+          GIT_HASH: ${{ github.sha }}
         run: bun turbo run publish:web
