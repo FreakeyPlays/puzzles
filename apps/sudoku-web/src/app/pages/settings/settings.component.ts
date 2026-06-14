@@ -50,7 +50,10 @@ export class SettingsComponent {
 
   readonly feedback = this.settingsService.feedback;
   readonly ui = this.settingsService.ui;
-  readonly version = environment.version;
+
+  readonly version = [environment.version, !environment.production && 'dev', environment.commitHash]
+    .filter(Boolean)
+    .join(' · ');
 
   onVibrations(enabled: boolean) {
     this.settingsService.updateFeedback({ vibrations: enabled });
