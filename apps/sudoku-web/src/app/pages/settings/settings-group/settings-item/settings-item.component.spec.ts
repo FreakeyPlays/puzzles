@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsOptionComponent } from './settings-option.component';
+import { SettingsItemComponent } from './settings-item.component';
 
-describe('SettingsOptionComponent', () => {
-  let component: SettingsOptionComponent;
-  let fixture: ComponentFixture<SettingsOptionComponent>;
+describe('SettingsItemComponent', () => {
+  let component: SettingsItemComponent;
+  let fixture: ComponentFixture<SettingsItemComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsOptionComponent],
+      imports: [SettingsItemComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SettingsOptionComponent);
+    fixture = TestBed.createComponent(SettingsItemComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('title', 'Vibrations');
     await fixture.whenStable();

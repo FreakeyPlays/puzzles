@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-settings-area',
+  selector: 'app-settings-group',
   imports: [],
-  templateUrl: './settings-area.component.html',
+  templateUrl: './settings-group.component.html',
 })
-export class SettingsAreaComponent {
+export class SettingsGroupComponent {
   readonly title = input.required<string>();
 }

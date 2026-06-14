@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsAreaComponent } from './settings-area.component';
+import { SettingsGroupComponent } from './settings-group.component';
 
-describe('SettingsAreaComponent', () => {
-  let component: SettingsAreaComponent;
-  let fixture: ComponentFixture<SettingsAreaComponent>;
+describe('SettingsGroupComponent', () => {
+  let component: SettingsGroupComponent;
+  let fixture: ComponentFixture<SettingsGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsAreaComponent],
+      imports: [SettingsGroupComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SettingsAreaComponent);
+    fixture = TestBed.createComponent(SettingsGroupComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('title', 'Feedback');
     await fixture.whenStable();
@@ -26,7 +26,7 @@ describe('SettingsAreaComponent', () => {
     expect(heading.textContent?.trim()).toBe('Feedback');
   });
 
-  it('should render the card container for projected options', () => {
+  it('should render the card container for projected items', () => {
     const card: HTMLElement = fixture.nativeElement.querySelector('.rounded-2xl');
     expect(card).toBeTruthy();
   });
