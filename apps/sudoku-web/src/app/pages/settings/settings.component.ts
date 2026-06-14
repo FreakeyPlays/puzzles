@@ -30,6 +30,16 @@ import { SwitchComponent } from './settings-group/settings-item/switch/switch.co
         </app-settings-item>
       </app-settings-group>
 
+      <app-settings-group title="Game">
+        <app-settings-item title="Highlight Errors" description="Show incorrect numbers in red">
+          <app-switch
+            ariaLabel="Highlight Errors"
+            [checked]="game().highlightErrors"
+            (checkedChange)="onHighlightErrors($event)"
+          />
+        </app-settings-item>
+      </app-settings-group>
+
       <app-settings-group title="Appearance">
         <app-settings-item title="Dark Mode" description="Use a dark color scheme">
           <app-switch
@@ -50,6 +60,7 @@ export class SettingsComponent {
 
   readonly feedback = this.settingsService.feedback;
   readonly ui = this.settingsService.ui;
+  readonly game = this.settingsService.game;
 
   readonly version = [environment.version, !environment.production && 'dev', environment.commitHash]
     .filter(Boolean)
@@ -68,5 +79,9 @@ export class SettingsComponent {
 
   onDarkMode(enabled: boolean) {
     this.settingsService.updateUI({ darkMode: enabled });
+  }
+
+  onHighlightErrors(enabled: boolean) {
+    this.settingsService.updateGame({ highlightErrors: enabled });
   }
 }
