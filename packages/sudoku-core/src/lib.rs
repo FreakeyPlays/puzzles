@@ -85,7 +85,9 @@ mod tests {
     fn solve_returns_none_for_unsolvable_board() {
         // Two 1s in the first row — no valid completion exists.
         assert_eq!(
-            solve("110000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+            solve(
+                "110000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            ),
             None
         );
     }
