@@ -72,7 +72,11 @@ export class SettingsComponent {
   readonly ui = this.settingsService.ui;
   readonly game = this.settingsService.game;
 
-  readonly version = [environment.version, !environment.production && 'dev', environment.commitHash]
+  readonly version = [
+    environment.version,
+    !environment.production && 'dev',
+    environment.commitHash?.slice(0, 7),
+  ]
     .filter(Boolean)
     .join(' · ');
 
