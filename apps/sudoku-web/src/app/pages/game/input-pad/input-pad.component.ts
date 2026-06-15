@@ -1,5 +1,4 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { HapticsService } from '../../../core/services/haptics.service';
 import { SettingsService } from '../../../core/services/settings.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class InputPadComponent {
   readonly solution = input<string>('');
   readonly currentBoard = input<string>('');
 
-  private readonly haptic = inject(HapticsService);
   private readonly settings = inject(SettingsService);
 
   protected readonly digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -40,11 +38,9 @@ export class InputPadComponent {
 
   onDigit(digit: number): void {
     this.digitInput.emit(digit);
-    this.haptic.correct();
   }
 
   onErase(): void {
     this.digitInput.emit(0);
-    this.haptic.erase();
   }
 }
