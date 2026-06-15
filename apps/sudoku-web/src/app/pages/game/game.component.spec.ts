@@ -13,6 +13,7 @@ describe('GameComponent', () => {
     puzzle: ReturnType<typeof signal<string>>;
     edits: ReturnType<typeof signal<string>>;
     solution: ReturnType<typeof signal<string>>;
+    currentBoard: ReturnType<typeof signal<string>>;
     difficulty: ReturnType<typeof signal<'medium'>>;
     status: ReturnType<typeof signal<'active' | 'solved'>>;
     elapsedSeconds: ReturnType<typeof signal<number>>;
@@ -28,7 +29,7 @@ describe('GameComponent', () => {
   const mockSettings = {
     feedback: signal({ vibrations: false, audio: false }),
     ui: signal({ darkMode: false }),
-    game: signal({ highlightErrors: true }),
+    game: signal({ highlightErrors: true, removeUsedNumbers: true }),
   };
 
   const EMPTY = '0'.repeat(81);
@@ -39,6 +40,7 @@ describe('GameComponent', () => {
       puzzle: signal(EMPTY),
       edits: signal(EMPTY),
       solution: signal(''),
+      currentBoard: signal(EMPTY),
       difficulty: signal('medium'),
       status: signal('active'),
       elapsedSeconds: signal(0),

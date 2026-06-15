@@ -38,7 +38,11 @@
 
   <!-- Input Pad -->
   <div class="mt-auto pb-2">
-    <app-input-pad (digitInput)="onDigitInput($event)" />
+    <app-input-pad
+      [solution]="game.solution()"
+      [currentBoard]="game.currentBoard()"
+      (digitInput)="onDigitInput($event)"
+    />
   </div>
 </div>
 

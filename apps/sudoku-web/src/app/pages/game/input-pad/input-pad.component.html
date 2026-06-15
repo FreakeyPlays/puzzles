@@ -2,11 +2,24 @@
   @for (digit of digits; track digit) {
     <button
       type="button"
-      class="flex aspect-square items-center justify-center rounded-xl bg-gray-100 text-xl font-bold text-gray-800 transition-colors hover:bg-gray-200 active:bg-gray-300 active:scale-95"
-      [attr.aria-label]="'Place ' + digit"
+      [disabled]="usedDigits().has(digit)"
+      [attr.aria-label]="usedDigits().has(digit) ? digit + ' fully placed' : 'Place ' + digit"
+      class="flex aspect-square items-center justify-center rounded-xl text-xl font-bold transition-colors"
+      [class.bg-gray-100]="!usedDigits().has(digit)"
+      [class.text-gray-800]="!usedDigits().has(digit)"
+      [class.hover:bg-gray-200]="!usedDigits().has(digit)"
+      [class.active:bg-gray-300]="!usedDigits().has(digit)"
+      [class.active:scale-95]="!usedDigits().has(digit)"
+      [class.bg-gray-50]="usedDigits().has(digit)"
+      [class.text-gray-300]="usedDigits().has(digit)"
+      [class.cursor-not-allowed]="usedDigits().has(digit)"
       (click)="onDigit(digit)"
     >
-      {{ digit }}
+      @if (usedDigits().has(digit)) {
+        ×
+      } @else {
+        {{ digit }}
+      }
     </button>
   }
   <button
