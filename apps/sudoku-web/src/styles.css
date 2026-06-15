@@ -14,13 +14,12 @@ a {
   -webkit-touch-callout: none;
 }
 
+html,
 body {
   overscroll-behavior-y: contain;
 }
 
 .safe-area-bottom {
-  /* Fallback for Chrome < 135 */
-  padding-bottom: env(safe-area-inset-bottom, 0px);
   /* Chrome 135+: safe-area-max-inset-bottom is a static constant resolved
      before first layout, so it is never 0 after a soft reload (pull-to-refresh). */
   padding-bottom: env(safe-area-max-inset-bottom, env(safe-area-inset-bottom, 0px));
