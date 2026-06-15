@@ -95,6 +95,7 @@ export class GameService {
     const edits = this._edits();
     const updated = edits.substring(0, index) + '0' + edits.substring(index + 1);
     this._edits.set(updated);
+    this.haptics.erase();
     this.storage.writePuzzle(this.snapshot());
   }
 
@@ -111,6 +112,8 @@ export class GameService {
       this.haptics.win();
       this._status.set('solved');
       this.stopTimer();
+    } else {
+      this.haptics.correct();
     }
   }
 
