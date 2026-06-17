@@ -7,7 +7,7 @@ export interface FeedbackSettings {
 }
 
 export interface UISettings {
-  darkMode: boolean;
+  theme: 'system' | 'dark' | 'light';
 }
 
 export interface GameSettings {
@@ -27,7 +27,7 @@ const DEFAULT_SETTINGS: AppSettings = {
     audio: false,
   },
   ui: {
-    darkMode: false,
+    theme: 'system',
   },
   game: {
     highlightErrors: true,
