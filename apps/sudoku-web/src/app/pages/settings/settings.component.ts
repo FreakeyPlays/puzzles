@@ -12,7 +12,7 @@ import { SelectComponent } from './settings-group/settings-item/select/select.co
   imports: [SettingsGroupComponent, SettingsItemComponent, SwitchComponent, SelectComponent],
   template: `
     <div class="flex flex-col gap-6 px-4 py-6 max-w-md mx-auto w-full">
-      <h1 class="px-1 text-2xl font-bold text-gray-900">Settings</h1>
+      <h1 class="px-1 text-2xl font-bold text-foreground">Settings</h1>
 
       <app-settings-group title="Feedback">
         <app-settings-item title="Vibrations" description="Haptic feedback on moves">
@@ -62,7 +62,7 @@ import { SelectComponent } from './settings-group/settings-item/select/select.co
         </app-settings-item>
       </app-settings-group>
 
-      <p class="px-1 text-center text-xs text-gray-400">{{ version }}</p>
+      <p class="px-1 text-center text-xs text-faint">{{ version }}</p>
     </div>
   `,
 })

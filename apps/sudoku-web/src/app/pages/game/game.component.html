@@ -2,12 +2,12 @@
   <!-- Header -->
   <div class="flex items-center justify-between">
     <div class="flex flex-col">
-      <span class="text-xs font-medium uppercase tracking-widest text-gray-400">
+      <span class="text-xs font-medium uppercase tracking-widest text-faint">
         {{ difficultyLabel() }}
       </span>
       <time
         [attr.aria-label]="'Game time: ' + formattedTime()"
-        class="text-2xl font-bold tabular-nums text-gray-900"
+        class="text-2xl font-bold tabular-nums text-foreground"
       >
         {{ formattedTime() }}
       </time>
@@ -17,7 +17,7 @@
       <button
         type="button"
         aria-label="Request a hint"
-        class="rounded-xl bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-100 active:bg-amber-200"
+        class="rounded-xl bg-warning-surface px-3 py-2 text-sm font-semibold text-warning shadow-sm transition hover:opacity-80 active:scale-95"
         (click)="requestHint()"
       >
         Hint
@@ -51,32 +51,32 @@
   <dialog
     appAutoShow
     appConfetti
-    class="w-full max-w-xs rounded-2xl border-0 bg-white p-6 shadow-xl text-center m-auto backdrop:bg-black/50"
+    class="w-full max-w-xs rounded-2xl border-0 bg-surface p-6 shadow-xl text-center m-auto backdrop:bg-black/50"
     aria-labelledby="result-title"
     (cancel)="$event.preventDefault()"
   >
-    <h2 id="result-title" class="text-2xl font-bold text-gray-900">Puzzle Solved!</h2>
-    <div class="mt-4 space-y-1 text-sm text-gray-600">
+    <h2 id="result-title" class="text-2xl font-bold text-foreground">Puzzle Solved!</h2>
+    <div class="mt-4 space-y-1 text-sm text-muted">
       <div class="flex justify-between">
         <span>Time</span>
-        <span class="font-semibold tabular-nums text-gray-900">{{ formattedTime() }}</span>
+        <span class="font-semibold tabular-nums text-foreground">{{ formattedTime() }}</span>
       </div>
       <div class="flex justify-between">
         <span>Difficulty</span>
-        <span class="font-semibold text-gray-900">{{ difficultyLabel() }}</span>
+        <span class="font-semibold text-foreground">{{ difficultyLabel() }}</span>
       </div>
     </div>
     <div class="mt-6 flex gap-3">
       <button
         type="button"
-        class="flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+        class="flex-1 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-surface-muted"
         (click)="goHome()"
       >
         Home
       </button>
       <button
         type="button"
-        class="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+        class="flex-1 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-hover"
         (click)="startNewGameFromResult()"
       >
         New Game

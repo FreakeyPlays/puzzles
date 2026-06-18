@@ -1,14 +1,14 @@
 <nav
   aria-label="Main navigation"
-  class="flex border-t border-gray-200 bg-white safe-area-bottom [view-transition-name:app-nav]"
+  class="flex border-t border-border bg-surface safe-area-bottom [view-transition-name:app-nav]"
 >
   <a
     routerLink="/"
-    routerLinkActive="text-blue-600"
+    routerLinkActive="text-primary"
     #homeLink="routerLinkActive"
     [routerLinkActiveOptions]="{ exact: true }"
     [attr.aria-current]="homeLink.isActive ? 'page' : null"
-    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600 active:text-blue-600"
+    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-muted transition-colors hover:text-primary active:text-primary"
   >
     <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
@@ -23,10 +23,10 @@
 
   <a
     routerLink="/history"
-    routerLinkActive="text-blue-600"
+    routerLinkActive="text-primary"
     #historyLink="routerLinkActive"
     [attr.aria-current]="historyLink.isActive ? 'page' : null"
-    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600"
+    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-muted transition-colors hover:text-primary"
   >
     <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
@@ -41,10 +41,10 @@
 
   <a
     routerLink="/settings"
-    routerLinkActive="text-blue-600"
+    routerLinkActive="text-primary"
     #settingsLink="routerLinkActive"
     [attr.aria-current]="settingsLink.isActive ? 'page' : null"
-    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600"
+    class="flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium text-muted transition-colors hover:text-primary"
   >
     <svg aria-hidden="true" class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path

@@ -4,9 +4,9 @@
   [attr.aria-checked]="checked()"
   [attr.aria-label]="ariaLabel()"
   (click)="toggle()"
-  class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-  [class.bg-blue-600]="checked()"
-  [class.bg-gray-200]="!checked()"
+  class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+  [class.bg-primary]="checked()"
+  [class.bg-track]="!checked()"
 >
   <span
     class="pointer-events-none m-0.5 inline-block h-6 w-6 rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 ease-in-out"
