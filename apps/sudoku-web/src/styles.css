@@ -2,6 +2,16 @@
 
 @import 'tailwindcss';
 
+/* Suppress transitions until the first paint so bindings (e.g. switch colors,
+   thumb position) apply instantly instead of animating in on load. The
+   .preloading class is set in index.html and removed by AppComponent after the
+   first frame. Can also be set on Components directly. */
+@utility preloading {
+  & * {
+    @apply transition-none!;
+  }
+}
+
 * {
   user-select: none;
   -webkit-user-select: none;
