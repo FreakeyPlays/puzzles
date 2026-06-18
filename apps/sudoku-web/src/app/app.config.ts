@@ -2,14 +2,12 @@ import {
   ApplicationConfig,
   inject,
   isDevMode,
-  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter, Router, withViewTransitions } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { routes } from './app.routes';
-import { SettingsService } from './core/services/settings.service';
 
 const NAV_ORDER = new Map<string, number>(
   routes
@@ -45,9 +43,6 @@ function navDirection(fromUrl: string, toUrl: string): string {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(() => {
-      inject(SettingsService);
-    }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
