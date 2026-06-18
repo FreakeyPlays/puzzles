@@ -7,6 +7,7 @@ export class StorageService {
   private static readonly APP_KEY = 'sudoku:app';
   private static readonly PUZZLE_KEY = 'sudoku:puzzle';
   private static readonly SETTINGS_KEY = 'sudoku:settings';
+  private static readonly THEME_KEY = 'sudoku:theme';
 
   readAppState(): AppState | null {
     return this.read<AppState>(StorageService.APP_KEY);
@@ -22,6 +23,7 @@ export class StorageService {
 
   writeSettings(state: AppSettings): void {
     this.write(StorageService.SETTINGS_KEY, state);
+    this.write(StorageService.THEME_KEY, state.ui.theme);
   }
 
   readPuzzle(): GameState | null {

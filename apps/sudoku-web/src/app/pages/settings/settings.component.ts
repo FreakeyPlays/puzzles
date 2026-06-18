@@ -5,10 +5,11 @@ import { SettingsService } from '../../core/services/settings.service';
 import { SettingsGroupComponent } from './settings-group/settings-group.component';
 import { SettingsItemComponent } from './settings-group/settings-item/settings-item.component';
 import { SwitchComponent } from './settings-group/settings-item/switch/switch.component';
+import { SelectComponent } from './settings-group/settings-item/select/select.component';
 
 @Component({
   selector: 'app-settings',
-  imports: [SettingsGroupComponent, SettingsItemComponent, SwitchComponent],
+  imports: [SettingsGroupComponent, SettingsItemComponent, SwitchComponent, SelectComponent],
   template: `
     <div class="flex flex-col gap-6 px-4 py-6 max-w-md mx-auto w-full">
       <h1 class="px-1 text-2xl font-bold text-gray-900">Settings</h1>
@@ -51,11 +52,12 @@ import { SwitchComponent } from './settings-group/settings-item/switch/switch.co
       </app-settings-group>
 
       <app-settings-group title="Appearance">
-        <app-settings-item title="Dark Mode" description="Use a dark color scheme">
-          <app-switch
-            ariaLabel="Dark Mode"
-            [checked]="ui().darkMode"
-            (checkedChange)="onDarkMode($event)"
+        <app-settings-item title="Theme" description="Choose your color scheme">
+          <app-select
+            ariaLabel="Theme"
+            [options]="themeOptions"
+            [value]="ui().theme"
+            (valueChange)="onThemeSelect($event)"
           />
         </app-settings-item>
       </app-settings-group>
@@ -80,6 +82,12 @@ export class SettingsComponent {
     .filter(Boolean)
     .join(' · ');
 
+  readonly themeOptions = [
+    { label: 'System', value: 'system' },
+    { label: 'Light', value: 'light' },
+    { label: 'Dark', value: 'dark' },
+  ];
+
   onVibrations(enabled: boolean) {
     this.settingsService.updateFeedback({ vibrations: enabled });
     if (enabled) {
@@ -91,8 +99,8 @@ export class SettingsComponent {
     this.settingsService.updateFeedback({ audio: enabled });
   }
 
-  onDarkMode(enabled: boolean) {
-    this.settingsService.updateUI({ darkMode: enabled });
+  onThemeSelect(theme: string) {
+    this.settingsService.updateUI({ theme: theme as 'system' | 'light' | 'dark' });
   }
 
   onHighlightErrors(enabled: boolean) {
