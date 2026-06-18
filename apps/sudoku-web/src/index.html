@@ -9,19 +9,28 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
     />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f9fafb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webmanifest" />
     <script>
       const savedThemeJson = localStorage.getItem('sudoku:theme');
       const savedTheme = savedThemeJson ? JSON.parse(savedThemeJson) : null;
       const { classList } = document.documentElement;
-      if (savedTheme === 'system' || !savedTheme) {
-        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDarkMode) classList.add('dark');
-      } else if (savedTheme === 'dark') {
-        classList.add('dark');
+
+      const explicit = savedTheme === 'dark' || savedTheme === 'light';
+      const isDark = explicit
+        ? savedTheme === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (isDark) classList.add('dark');
+
+      if (explicit) {
+        document.querySelectorAll('meta[name="theme-color"]').forEach((el) => el.remove());
+        const meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = isDark ? '#121212' : '#ffffff';
+        document.head.appendChild(meta);
       }
     </script>
   </head>

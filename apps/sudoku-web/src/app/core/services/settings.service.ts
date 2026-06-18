@@ -22,6 +22,9 @@ export interface AppSettings {
   game: GameSettings;
 }
 
+const THEME_COLOR_LIGHT = '#f9fafb';
+const THEME_COLOR_DARK = '#0a0a0a';
+
 const DEFAULT_SETTINGS: AppSettings = {
   feedback: {
     vibrations: true,
@@ -65,13 +68,38 @@ export class SettingsService {
 
     effect(() => {
       const theme = this.ui().theme;
-      const dark =
-        theme === 'dark' ||
-        (theme === 'system' &&
-          (this.document.defaultView?.matchMedia?.('(prefers-color-scheme: dark)').matches ??
-            false));
-      this.document.documentElement.classList.toggle('dark', dark);
+
+      const isExplicit = theme === 'dark' || theme === 'light';
+      const prefersDarkMode = isExplicit
+        ? theme === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      this.applyThemeClass(prefersDarkMode);
+      this.syncThemeColorMetaTag(prefersDarkMode, isExplicit);
     });
+  }
+
+  private applyThemeClass(prefersDarkMode: boolean) {
+    this.document.documentElement.classList.toggle('dark', prefersDarkMode);
+  }
+
+  private syncThemeColorMetaTag(prefersDarkMode: boolean, isExplicit: boolean) {
+    this.document.querySelectorAll('meta[name="theme-color"]').forEach((el) => el.remove());
+
+    const add = (prefersDarkMode: boolean, mediaQuery?: string) => {
+      const meta = this.document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.content = prefersDarkMode ? THEME_COLOR_DARK : THEME_COLOR_LIGHT;
+      if (mediaQuery) meta.media = mediaQuery;
+      this.document.head.appendChild(meta);
+    };
+
+    if (isExplicit) {
+      add(prefersDarkMode);
+    } else {
+      add(false, '(prefers-color-scheme: light)');
+      add(true, '(prefers-color-scheme: dark)');
+    }
   }
 
   updateFeedback(patch: Partial<FeedbackSettings>) {
