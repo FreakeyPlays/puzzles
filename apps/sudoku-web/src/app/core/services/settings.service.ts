@@ -68,7 +68,8 @@ export class SettingsService {
       const dark =
         theme === 'dark' ||
         (theme === 'system' &&
-          this.document.defaultView!.matchMedia('(prefers-color-scheme: dark)').matches);
+          (this.document.defaultView?.matchMedia?.('(prefers-color-scheme: dark)').matches ??
+            false));
       this.document.documentElement.classList.toggle('dark', dark);
     });
   }
