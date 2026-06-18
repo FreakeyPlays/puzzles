@@ -4,6 +4,7 @@ import { gameGuard } from './core/guards/game.guard';
 export const routes: Routes = [
   {
     path: '',
+    data: { order: 0 },
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
@@ -13,11 +14,13 @@ export const routes: Routes = [
   },
   {
     path: 'history',
+    data: { order: 1 },
     loadComponent: () =>
       import('./pages/history/history.component').then((m) => m.HistoryComponent),
   },
   {
     path: 'settings',
+    data: { order: 2 },
     loadComponent: () =>
       import('./pages/settings/settings.component').then((m) => m.SettingsComponent),
   },
