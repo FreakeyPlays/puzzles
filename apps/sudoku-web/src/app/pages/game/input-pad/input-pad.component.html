@@ -4,14 +4,17 @@
       type="button"
       [disabled]="usedDigits().has(digit)"
       [attr.aria-label]="usedDigits().has(digit) ? digit + ' fully placed' : 'Place ' + digit"
-      class="flex aspect-square items-center justify-center rounded-xl text-xl font-bold transition-colors"
-      [class.bg-gray-100]="!usedDigits().has(digit)"
-      [class.text-gray-800]="!usedDigits().has(digit)"
-      [class.hover:bg-gray-200]="!usedDigits().has(digit)"
-      [class.active:bg-gray-300]="!usedDigits().has(digit)"
+      class="flex aspect-square items-center justify-center rounded-xl border text-xl font-bold transition-colors"
+      [class.bg-surface]="!usedDigits().has(digit)"
+      [class.border-border]="!usedDigits().has(digit)"
+      [class.text-foreground]="!usedDigits().has(digit)"
+      [class.shadow-sm]="!usedDigits().has(digit)"
+      [class.hover:bg-surface-muted]="!usedDigits().has(digit)"
+      [class.active:bg-surface-strong]="!usedDigits().has(digit)"
       [class.active:scale-95]="!usedDigits().has(digit)"
-      [class.bg-gray-50]="usedDigits().has(digit)"
-      [class.text-gray-300]="usedDigits().has(digit)"
+      [class.bg-surface-muted]="usedDigits().has(digit)"
+      [class.border-transparent]="usedDigits().has(digit)"
+      [class.text-faint]="usedDigits().has(digit)"
       [class.cursor-not-allowed]="usedDigits().has(digit)"
       (click)="onDigit(digit)"
     >
@@ -24,7 +27,7 @@
   }
   <button
     type="button"
-    class="flex aspect-square items-center justify-center rounded-xl bg-red-50 text-red-600 transition-colors hover:bg-red-100 active:bg-red-200 active:scale-95"
+    class="flex aspect-square items-center justify-center rounded-xl border border-border bg-error-surface text-error shadow-sm transition hover:opacity-80 active:scale-95"
     (click)="onErase()"
     aria-label="Erase"
   >

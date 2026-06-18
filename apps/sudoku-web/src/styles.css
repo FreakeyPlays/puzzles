@@ -4,6 +4,66 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Semantic color tokens. Components use these (bg-surface, text-foreground, …)
+   instead of raw palette utilities (bg-white, text-gray-900, …). @theme defines
+   the token names + their default (light) values; .dark only swaps the values.
+   Add a new theme by adding another selector block with the same token names. */
+@theme {
+  --color-background: var(--color-gray-50);
+  --color-surface: var(--color-white);
+  --color-surface-muted: var(--color-gray-100);
+  --color-surface-strong: var(--color-gray-200);
+  --color-foreground: var(--color-gray-900);
+  --color-muted: var(--color-gray-500);
+  --color-faint: var(--color-gray-400);
+  --color-border: var(--color-gray-200);
+  --color-track: var(--color-gray-200);
+  --color-primary: var(--color-blue-600);
+  --color-primary-hover: var(--color-blue-700);
+  --color-on-primary: var(--color-white);
+
+  /* Game board */
+  --color-grid: var(--color-gray-300);
+  --color-grid-strong: var(--color-gray-700);
+  --color-cell-selected: var(--color-blue-300);
+  --color-cell-peer: var(--color-blue-50);
+  --color-entry: var(--color-blue-700);
+
+  /* Status accents */
+  --color-error: var(--color-red-600);
+  --color-error-surface: var(--color-red-50);
+  --color-warning: var(--color-amber-700);
+  --color-warning-surface: var(--color-amber-50);
+}
+
+.dark {
+  --color-background: var(--color-neutral-950);
+  --color-surface: var(--color-neutral-900);
+  --color-surface-muted: var(--color-neutral-800);
+  --color-surface-strong: var(--color-neutral-700);
+  --color-foreground: var(--color-gray-50);
+  --color-muted: var(--color-gray-400);
+  --color-faint: var(--color-gray-500);
+  --color-border: var(--color-neutral-800);
+  --color-track: var(--color-neutral-700);
+  --color-primary: var(--color-blue-500);
+  --color-primary-hover: var(--color-blue-400);
+  --color-on-primary: var(--color-white);
+
+  /* Game board */
+  --color-grid: var(--color-neutral-700);
+  --color-grid-strong: var(--color-neutral-500);
+  --color-cell-selected: var(--color-blue-600);
+  --color-cell-peer: var(--color-blue-950);
+  --color-entry: var(--color-blue-400);
+
+  /* Status accents */
+  --color-error: var(--color-red-400);
+  --color-error-surface: var(--color-red-950);
+  --color-warning: var(--color-amber-300);
+  --color-warning-surface: var(--color-amber-950);
+}
+
 /* Suppress transitions until the first paint so bindings (e.g. switch colors,
    thumb position) apply instantly instead of animating in on load. The
    .preloading class is set in index.html and removed by AppComponent after the
@@ -29,6 +89,11 @@ a {
 html,
 body {
   overscroll-behavior-y: contain;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 .safe-area-bottom {
