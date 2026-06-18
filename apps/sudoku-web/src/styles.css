@@ -4,6 +4,16 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Suppress transitions until the first paint so bindings (e.g. switch colors,
+   thumb position) apply instantly instead of animating in on load. The
+   .preloading class is set in index.html and removed by AppComponent after the
+   first frame. Can also be set on Components directly. */
+@utility preloading {
+  & * {
+    @apply transition-none!;
+  }
+}
+
 * {
   user-select: none;
   -webkit-user-select: none;
@@ -25,4 +35,66 @@ body {
   /* Chrome 135+: safe-area-max-inset-bottom is a static constant resolved
      before first layout, so it is never 0 after a soft reload (pull-to-refresh). */
   padding-bottom: env(safe-area-max-inset-bottom, env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 768px) {
+  html[data-nav='forward']::view-transition-old(root) {
+    animation: slide-to-left 280ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+  }
+  html[data-nav='forward']::view-transition-new(root) {
+    animation: slide-from-right 280ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+  }
+  html[data-nav='back']::view-transition-old(root) {
+    animation: slide-to-right 280ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+  }
+  html[data-nav='back']::view-transition-new(root) {
+    animation: slide-from-left 280ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+  }
+}
+
+html[data-nav='enter-game']::view-transition-new(root) {
+  animation: slide-from-bottom 300ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+}
+html[data-nav='exit-game']::view-transition-old(root) {
+  animation: slide-to-bottom 300ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+}
+
+html[data-nav='none']::view-transition-old(root),
+html[data-nav='none']::view-transition-new(root) {
+  animation: none;
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes slide-to-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes slide-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes slide-to-bottom {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+::view-transition-group(app-nav) {
+  animation: none;
 }
