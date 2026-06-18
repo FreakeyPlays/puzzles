@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { computed, effect, inject, Service, signal, untracked } from '@angular/core';
 import { StorageService } from './storage.service';
 
@@ -38,6 +39,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 @Service()
 export class SettingsService {
   private readonly storage = inject(StorageService);
+  private readonly document = inject(DOCUMENT);
   private readonly _settings = signal<AppSettings>(DEFAULT_SETTINGS);
 
   readonly feedback = computed(() => this._settings().feedback);
@@ -59,6 +61,15 @@ export class SettingsService {
       untracked(() => {
         this.storage.writeSettings(settings);
       });
+    });
+
+    effect(() => {
+      const theme = this.ui().theme;
+      const dark =
+        theme === 'dark' ||
+        (theme === 'system' &&
+          this.document.defaultView!.matchMedia('(prefers-color-scheme: dark)').matches);
+      this.document.documentElement.classList.toggle('dark', dark);
     });
   }
 
