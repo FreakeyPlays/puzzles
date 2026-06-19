@@ -74,13 +74,13 @@ export class SettingsService {
         ? theme === 'dark'
         : window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-      this.applyThemeClass(prefersDarkMode);
+      this.applyThemeClass(prefersDarkMode, isExplicit);
       this.syncThemeColorMetaTag(prefersDarkMode, isExplicit);
     });
   }
 
-  private applyThemeClass(prefersDarkMode: boolean) {
-    this.document.documentElement.classList.toggle('dark', prefersDarkMode);
+  private applyThemeClass(prefersDarkMode: boolean, isExplicit: boolean) {
+    if (isExplicit) this.document.documentElement.classList.toggle('dark', prefersDarkMode);
   }
 
   private syncThemeColorMetaTag(prefersDarkMode: boolean, isExplicit: boolean) {
