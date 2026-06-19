@@ -20,8 +20,8 @@
     "path": "../../../puzzles.keystore",
     "alias": "puzzles"
   },
-  "appVersionName": "0.2.0",
-  "appVersionCode": 200,
+  "appVersionName": "0.2.1",
+  "appVersionCode": 201,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://sudoku.chrismerck.dev/manifest.webmanifest",
@@ -43,5 +43,5 @@
   "fileHandlers": [],
   "launchHandlerClientMode": "",
   "displayOverride": [],
-  "appVersion": "0.2.0"
+  "appVersion": "0.2.1"
 }
